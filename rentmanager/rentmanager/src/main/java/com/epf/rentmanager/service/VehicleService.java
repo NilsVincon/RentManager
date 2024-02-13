@@ -28,18 +28,41 @@ public class VehicleService {
 	
 	
 	public long create(Vehicle vehicle) throws ServiceException {
-		// TODO: créer un véhicule
-		
+		try {
+			if (vehicle.getConstructeur().isEmpty()) {
+				throw new ServiceException("Le vehicule doit avoir un constructeur");
+			}
+			if (vehicle.getNb_place()<1) {
+				throw new ServiceException("Le vehicule doit avoir au minimum 1 place");
+			}
+			return vehicleDao.create(vehicle);
+		} catch (DaoException e) {
+			throw new ServiceException("Erreur lors de la création du vehicule.");
+		}
+	}
+
+	public long delete(Vehicle vehicle) throws ServiceException{
+		try {
+			return vehicleDao.delete(vehicle);
+		} catch (DaoException e) {
+			throw new ServiceException("Erreur lors de la suppression du vehicule.");
+		}
 	}
 
 	public Vehicle findById(long id) throws ServiceException {
-		// TODO: récupérer un véhicule par son id
-		
+		try {
+			return vehicleDao.findById(id);
+		} catch (DaoException e) {
+			throw new ServiceException("Erreur lors de la recherche du vehicule.");
+		}
 	}
 
 	public List<Vehicle> findAll() throws ServiceException {
-		// TODO: récupérer tous les clients
-		
+		try {
+			return vehicleDao.findAll();
+		} catch (DaoException e) {
+			throw new ServiceException("Erreur lors de la recherche des vehicules.");
+		}
 	}
 	
 }

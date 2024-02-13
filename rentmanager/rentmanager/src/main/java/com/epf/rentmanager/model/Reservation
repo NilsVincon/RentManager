@@ -28,6 +28,12 @@ public class Reservation {
         this.debut = debut;
         this.fin = fin;
     }
+    public Reservation(int ID_Reservation,int ID_client,LocalDate debut,LocalDate fin) {
+        this.ID_Reservation = ID_Reservation;
+        this.ID_client = ID_client;
+        this.debut = debut;
+        this.fin = fin;
+    }
 
     public int getID_Reservation() {
         return ID_Reservation;

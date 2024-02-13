@@ -1,13 +1,12 @@
 package com.epf.rentmanager.dao;
 
+
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-
+import com.epf.rentmanager.exception.DaoException;
 import com.epf.rentmanager.model.Client;
-import com.epf.rentmanager.persistence.ConnectionManager;
 
 public class ClientDao {
 	
@@ -40,6 +39,7 @@ public class ClientDao {
 			}
 			connexion.close();
 			preparedStatement.close();
+			resultSet.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } return 0;
@@ -70,6 +70,7 @@ public class ClientDao {
 			String prenom = resultSet.getString("prenom");
 			String email = resultSet.getString("email");
 			LocalDate naissance = resultSet.getDate("naissance").toLocalDate();
+			resultSet.close();
 			connexion.close();
 			preparedStatement.close();
 			return new Client((int) id,nom,prenom,email,naissance);
@@ -81,7 +82,28 @@ public class ClientDao {
 	}
 
 	public List<Client> findAll() throws DaoException {
-		return new ArrayList<Client>();
+		try {
+			Connection connexion = DriverManager.getConnection("jdbc:h2:~/RentManagerDatabase", "", "");
+			PreparedStatement preparedStatement = connexion.prepareStatement(FIND_CLIENTS_QUERY);
+			preparedStatement.executeQuery();
+			ResultSet resultSet = preparedStatement.getGeneratedKeys();
+			List<Client> clients = new ArrayList<>();
+			while (resultSet.next()) {
+				int id = resultSet.getInt("id");
+				String nom = resultSet.getString("nom");
+				String prenom = resultSet.getString("prenom");
+				String email = resultSet.getString("email");
+				LocalDate naissance = resultSet.getDate("naissance").toLocalDate();
+				Client client = new Client(id, nom, prenom, email, naissance);
+				clients.add(client);
+			}
+			resultSet.close();
+			connexion.close();
+			preparedStatement.close();
+			return clients;
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 }

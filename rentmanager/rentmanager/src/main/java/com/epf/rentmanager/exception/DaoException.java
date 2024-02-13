@@ -1,5 +1,6 @@
-package com.epf.rentmanager.dao;
+package com.epf.rentmanager.exception;
 
 public class DaoException extends Exception{
 
 }
+
