@@ -8,7 +8,7 @@ import com.epf.rentmanager.utils.IOUtils;
 import java.time.LocalDate;
 
 
-public class CreateReservationCommand {
+public class CreateReservationCommand implements Command {
     private ReservationService resaservice;
 
     public CreateReservationCommand (ReservationService resaservice) {

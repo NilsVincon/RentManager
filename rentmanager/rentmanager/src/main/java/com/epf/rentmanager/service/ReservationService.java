@@ -4,25 +4,21 @@ import com.epf.rentmanager.dao.ReservationDao;
 import com.epf.rentmanager.exception.DaoException;
 import com.epf.rentmanager.exception.ServiceException;
 import com.epf.rentmanager.models.Reservation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service // Annotation Spring indiquant que cette classe est un bean géré par Spring
 public class ReservationService {
-    private ReservationDao reservationDao;
-    public static ReservationService instance;
 
-    private ReservationService() {
-        this.reservationDao = ReservationDao.getInstance();
+    private final ReservationDao reservationDao;
+
+    // Injection du ReservationDao via le constructeur
+    @Autowired
+    public ReservationService(ReservationDao reservationDao) {
+        this.reservationDao = reservationDao;
     }
-
-    public static ReservationService getInstance() {
-        if (instance == null) {
-            instance = new ReservationService();
-        }
-
-        return instance;
-    }
-
 
     public long create(Reservation reservation) throws ServiceException {
         try {
@@ -31,6 +27,7 @@ public class ReservationService {
             throw new ServiceException("Erreur lors de la création de la réservation.");
         }
     }
+
     public long delete(Reservation reservation) throws ServiceException {
         try {
             return reservationDao.delete(reservation);
@@ -41,21 +38,23 @@ public class ReservationService {
 
     public Reservation findResaById(long id) throws ServiceException {
         try {
-            return (Reservation) reservationDao.findResaById(id);
+            return reservationDao.findResaById(id);
         } catch (DaoException e) {
             throw new ServiceException("Erreur lors de la recherche de la réservation.");
         }
     }
-    public Reservation findResaByClientId(long id) throws ServiceException {
+
+    public List<Reservation>  findResaByClientId(long id) throws ServiceException {
         try {
-            return (Reservation) reservationDao.findResaByClientId(id);
+            return reservationDao.findResaByClientId(id);
         } catch (DaoException e) {
             throw new ServiceException("Erreur lors de la recherche de la réservation.");
         }
     }
-    public Reservation findResaByVehicleId(long id) throws ServiceException {
+
+    public List<Reservation>  findResaByVehicleId(long id) throws ServiceException {
         try {
-            return (Reservation) reservationDao.findResaByVehicleId(id);
+            return reservationDao.findResaByVehicleId(id);
         } catch (DaoException e) {
             throw new ServiceException("Erreur lors de la recherche de la réservation.");
         }
@@ -69,6 +68,11 @@ public class ReservationService {
         }
     }
 
+    public int count() throws ServiceException {
+        try {
+            return reservationDao.count();
+        } catch (DaoException e) {
+            throw new ServiceException("Erreur lors du comptage des réservations.");
+        }
+    }
 }
-
-

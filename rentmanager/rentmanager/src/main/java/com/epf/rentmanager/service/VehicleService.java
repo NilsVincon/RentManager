@@ -6,44 +6,42 @@ import com.epf.rentmanager.exception.DaoException;
 import com.epf.rentmanager.exception.ServiceException;
 import com.epf.rentmanager.models.Vehicle;
 import com.epf.rentmanager.dao.VehicleDao;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service // Annotation Spring indiquant que cette classe est un bean géré par Spring
 public class VehicleService {
 
-	private VehicleDao vehicleDao;
-	public static VehicleService instance;
-	
-	private VehicleService() {
-		this.vehicleDao = VehicleDao.getInstance();
+	private final VehicleDao vehicleDao;
+
+	// Injection du VehicleDao via le constructeur
+	@Autowired
+	public VehicleService(VehicleDao vehicleDao) {
+		this.vehicleDao = vehicleDao;
 	}
-	
-	public static VehicleService getInstance() {
-		if (instance == null) {
-			instance = new VehicleService();
-		}
-		
-		return instance;
-	}
-	
-	
+
 	public long create(Vehicle vehicle) throws ServiceException {
 		try {
 			if (vehicle.getConstructeur().isEmpty()) {
-				throw new ServiceException("Le vehicule doit avoir un constructeur");
+				throw new ServiceException("Le véhicule doit avoir un constructeur.");
 			}
-			if (vehicle.getNb_place()<1) {
-				throw new ServiceException("Le vehicule doit avoir au minimum 1 place");
+			if (vehicle.getModel().isEmpty()) {
+				throw new ServiceException("Le véhicule doit avoir un model.");
+			}
+			if (vehicle.getNb_place() < 1) {
+				throw new ServiceException("Le véhicule doit avoir au moins une place.");
 			}
 			return vehicleDao.create(vehicle);
 		} catch (DaoException e) {
-			throw new ServiceException("Erreur lors de la création du vehicule.");
+			throw new ServiceException("Erreur lors de la création du véhicule.");
 		}
 	}
 
-	public long delete(Vehicle vehicle) throws ServiceException{
+	public long delete(Vehicle vehicle) throws ServiceException {
 		try {
 			return vehicleDao.delete(vehicle);
 		} catch (DaoException e) {
-			throw new ServiceException("Erreur lors de la suppression du vehicule.");
+			throw new ServiceException("Erreur lors de la suppression du véhicule.");
 		}
 	}
 
@@ -51,7 +49,7 @@ public class VehicleService {
 		try {
 			return vehicleDao.findById(id);
 		} catch (DaoException e) {
-			throw new ServiceException("Erreur lors de la recherche du vehicule.");
+			throw new ServiceException("Erreur lors de la recherche du véhicule.");
 		}
 	}
 
@@ -59,15 +57,15 @@ public class VehicleService {
 		try {
 			return vehicleDao.findAll();
 		} catch (DaoException e) {
-			throw new ServiceException("Erreur lors de la recherche des vehicules.");
+			throw new ServiceException("Erreur lors de la recherche des véhicules.");
 		}
 	}
+
 	public int count() throws ServiceException {
 		try {
 			return vehicleDao.count();
 		} catch (DaoException e) {
-			throw new ServiceException(e.getMessage());
+			throw new ServiceException("Erreur lors du comptage des véhicules.");
 		}
 	}
-	
 }

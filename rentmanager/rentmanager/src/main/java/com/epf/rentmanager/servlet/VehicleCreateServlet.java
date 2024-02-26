@@ -9,19 +9,25 @@ import javax.servlet.http.HttpServletResponse;
 import com.epf.rentmanager.models.Vehicle;
 import com.epf.rentmanager.service.VehicleService;
 import com.epf.rentmanager.exception.ServiceException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
-@WebServlet("/cars/create")
+@WebServlet("/vehicles/create")
 public class VehicleCreateServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
+
+    @Autowired
     private VehicleService vehicleService;
-    public VehicleCreateServlet() {
-        this.vehicleService = VehicleService.getInstance();
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Affichage du formulaire de création de véhicules
-        request.getRequestDispatcher("/WEB-INF/views/vehicle/create.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/vehicles/create.jsp").forward(request, response);
     }
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String constructeur = request.getParameter("constructeur");
@@ -35,7 +41,7 @@ public class VehicleCreateServlet extends HttpServlet {
 
         try {
              vehicleService.create(newVehicle);
-            response.sendRedirect(request.getContextPath() + "/cars");
+            response.sendRedirect(request.getContextPath() + "/vehicles");
         } catch (ServiceException e) {
             e.printStackTrace();
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Une erreur s'est produite lors de la création du véhicule.");
