@@ -2,14 +2,11 @@ package com.epf.rentmanager.ui.cli;
 
 import com.epf.rentmanager.exception.CommandException;
 import com.epf.rentmanager.exception.ServiceException;
-import com.epf.rentmanager.model.Client;
+import com.epf.rentmanager.models.Client;
 import com.epf.rentmanager.service.ClientService;
 import com.epf.rentmanager.utils.IOUtils;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.util.Scanner;
 
 public class CreateClientCommand implements Command {
     private ClientService clientService;

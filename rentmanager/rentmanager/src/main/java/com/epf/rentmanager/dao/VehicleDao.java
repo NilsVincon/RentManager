@@ -1,11 +1,10 @@
 package com.epf.rentmanager.dao;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import com.epf.rentmanager.model.Vehicle;
+
+import com.epf.rentmanager.models.Vehicle;
 import com.epf.rentmanager.persistence.ConnectionManager;
 import com.epf.rentmanager.exception.DaoException;
 public class VehicleDao {
@@ -98,6 +97,18 @@ public class VehicleDao {
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
+	}
+	public int count() throws DaoException {
+		try (Connection connection = ConnectionManager.getConnection();
+			 PreparedStatement preparedStatement = connection.prepareStatement("SELECT COUNT(*) AS total FROM vehicle")) {
+			ResultSet resultSet = preparedStatement.executeQuery();
+			if (resultSet.next()) {
+				return resultSet.getInt("total");
+			}
+		} catch (SQLException e) {
+			throw new DaoException(e.getMessage(), e);
+		}
+		return 0;
 	}
 	
 

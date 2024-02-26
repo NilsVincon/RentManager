@@ -1,7 +1,7 @@
 package com.epf.rentmanager.ui.cli;
 
 import com.epf.rentmanager.exception.ServiceException;
-import com.epf.rentmanager.model.Vehicle;
+import com.epf.rentmanager.models.Vehicle;
 import com.epf.rentmanager.service.VehicleService;
 import java.util.Scanner;
 

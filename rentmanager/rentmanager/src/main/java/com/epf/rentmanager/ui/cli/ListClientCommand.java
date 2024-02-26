@@ -1,6 +1,6 @@
 package com.epf.rentmanager.ui.cli;
 
-import com.epf.rentmanager.model.Client;
+import com.epf.rentmanager.models.Client;
 import com.epf.rentmanager.service.ClientService;
 import com.epf.rentmanager.exception.ServiceException;
 import java.util.List;

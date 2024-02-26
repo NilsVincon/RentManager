@@ -4,9 +4,7 @@ import java.util.List;
 
 import com.epf.rentmanager.exception.DaoException;
 import com.epf.rentmanager.exception.ServiceException;
-import com.epf.rentmanager.model.Client;
-import com.epf.rentmanager.model.Vehicle;
-import com.epf.rentmanager.dao.ClientDao;
+import com.epf.rentmanager.models.Vehicle;
 import com.epf.rentmanager.dao.VehicleDao;
 
 public class VehicleService {
@@ -62,6 +60,13 @@ public class VehicleService {
 			return vehicleDao.findAll();
 		} catch (DaoException e) {
 			throw new ServiceException("Erreur lors de la recherche des vehicules.");
+		}
+	}
+	public int count() throws ServiceException {
+		try {
+			return vehicleDao.count();
+		} catch (DaoException e) {
+			throw new ServiceException(e.getMessage());
 		}
 	}
 	

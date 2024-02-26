@@ -5,9 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import com.epf.rentmanager.exception.DaoException;
-import com.epf.rentmanager.model.Reservation;
-import com.epf.rentmanager.model.Vehicle;
-import com.epf.rentmanager.persistence.ConnectionManager;
+import com.epf.rentmanager.models.Reservation;
 
 public class ReservationDao {
 
@@ -22,6 +20,7 @@ public class ReservationDao {
 	
 	private static final String CREATE_RESERVATION_QUERY = "INSERT INTO Reservation(client_id, vehicle_id, debut, fin) VALUES(?, ?, ?, ?),RETURN_GENERATED_KEYS;";
 	private static final String DELETE_RESERVATION_QUERY = "DELETE FROM Reservation WHERE id=?;";
+	private static final String FIND_RESERVATIONS_BY_ID_QUERY = "SELECT client_id, vehicle_id, debut, fin FROM Reservation WHERE id=?;";
 	private static final String FIND_RESERVATIONS_BY_CLIENT_QUERY = "SELECT id, vehicle_id, debut, fin FROM Reservation WHERE client_id=?;";
 	private static final String FIND_RESERVATIONS_BY_VEHICLE_QUERY = "SELECT id, client_id, debut, fin FROM Reservation WHERE vehicle_id=?;";
 	private static final String FIND_RESERVATIONS_QUERY = "SELECT id, client_id, vehicle_id, debut, fin FROM Reservation;";
@@ -61,6 +60,31 @@ public class ReservationDao {
 		return reservation.getID_Reservation();
 	}
 
+	public List<Reservation> findResaById(long resaId) throws DaoException {
+		try {
+			Connection connexion = DriverManager.getConnection("jdbc:h2:~/RentManagerDatabase", "", "");
+			PreparedStatement preparedStatement = connexion.prepareStatement(FIND_RESERVATIONS_BY_ID_QUERY);
+			preparedStatement.setInt(1, (int) resaId);
+			preparedStatement.executeQuery();
+			ResultSet resultSet = preparedStatement.getGeneratedKeys();
+			List<Reservation> reservations = new ArrayList<>();
+			while (resultSet.next()) {
+				int client_id = resultSet.getInt("client_id");
+				int vehicle_id = resultSet.getInt("vehicle_id");
+				LocalDate debut = (resultSet.getDate("debut").toLocalDate());
+				LocalDate fin = (resultSet.getDate("fin")).toLocalDate();
+				Reservation resa = new Reservation(client_id,vehicle_id,debut,fin);
+				reservations.add(resa);
+			}
+			resultSet.close();
+			connexion.close();
+			preparedStatement.close();
+			return reservations;
+		}
+		catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
 	
 	public List<Reservation> findResaByClientId(long clientId) throws DaoException {
 		try {

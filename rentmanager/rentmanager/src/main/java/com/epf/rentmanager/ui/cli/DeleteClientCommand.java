@@ -1,7 +1,6 @@
 package com.epf.rentmanager.ui.cli;
 
 import com.epf.rentmanager.exception.ServiceException;
-import com.epf.rentmanager.model.Client;
 import com.epf.rentmanager.service.ClientService;
 import java.util.Scanner;
 
