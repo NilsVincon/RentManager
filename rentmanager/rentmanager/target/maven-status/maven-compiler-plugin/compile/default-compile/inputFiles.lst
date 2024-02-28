@@ -2,13 +2,17 @@ D:\EPF-4A\Java\TP4\rentmanager\rentmanager\src\main\java\com\epf\rentmanager\ser
 D:\EPF-4A\Java\TP4\rentmanager\rentmanager\src\main\java\com\epf\rentmanager\dao\VehicleDao.java
 D:\EPF-4A\Java\TP4\rentmanager\rentmanager\src\main\java\com\epf\rentmanager\ui\cli\DeleteVehicleCommand.java
 D:\EPF-4A\Java\TP4\rentmanager\rentmanager\src\main\java\com\epf\rentmanager\persistence\ConnectionManager.java
+D:\EPF-4A\Java\TP4\rentmanager\rentmanager\src\main\java\com\epf\rentmanager\servlet\ClientCreateServlet.java
 D:\EPF-4A\Java\TP4\rentmanager\rentmanager\src\main\java\com\epf\rentmanager\ui\cli\Command.java
+D:\EPF-4A\Java\TP4\rentmanager\rentmanager\src\main\java\com\epf\rentmanager\servlet\ReservationCreateServlet.java
 D:\EPF-4A\Java\TP4\rentmanager\rentmanager\src\main\java\com\epf\rentmanager\configuration\AppConfiguration.java
 D:\EPF-4A\Java\TP4\rentmanager\rentmanager\src\main\java\com\epf\rentmanager\persistence\FillDatabase.java
 D:\EPF-4A\Java\TP4\rentmanager\rentmanager\src\main\java\com\epf\rentmanager\service\ClientService.java
+D:\EPF-4A\Java\TP4\rentmanager\rentmanager\src\main\java\com\epf\rentmanager\ui\cli\Interface.java
 D:\EPF-4A\Java\TP4\rentmanager\rentmanager\src\main\java\com\epf\rentmanager\configuration\WebConfiguration.java
 D:\EPF-4A\Java\TP4\rentmanager\rentmanager\src\main\java\com\epf\rentmanager\models\Reservation.java
 D:\EPF-4A\Java\TP4\rentmanager\rentmanager\src\main\java\com\epf\rentmanager\ui\cli\ListVehicleCommand.java
+D:\EPF-4A\Java\TP4\rentmanager\rentmanager\src\main\java\com\epf\rentmanager\servlet\ClientListServlet.java
 D:\EPF-4A\Java\TP4\rentmanager\rentmanager\src\main\java\com\epf\rentmanager\servlet\HomeServlet.java
 D:\EPF-4A\Java\TP4\rentmanager\rentmanager\src\main\java\com\epf\rentmanager\dao\ClientDao.java
 D:\EPF-4A\Java\TP4\rentmanager\rentmanager\src\main\java\com\epf\rentmanager\exception\CommandException.java
@@ -19,6 +23,7 @@ D:\EPF-4A\Java\TP4\rentmanager\rentmanager\src\main\java\com\epf\rentmanager\ui\
 D:\EPF-4A\Java\TP4\rentmanager\rentmanager\src\main\java\com\epf\rentmanager\ui\cli\DeleteReservationCommand.java
 D:\EPF-4A\Java\TP4\rentmanager\rentmanager\src\main\java\com\epf\rentmanager\exception\DaoException.java
 D:\EPF-4A\Java\TP4\rentmanager\rentmanager\src\main\java\com\epf\rentmanager\exception\ServiceException.java
+D:\EPF-4A\Java\TP4\rentmanager\rentmanager\src\main\java\com\epf\rentmanager\servlet\ReservationListServlet.java
 D:\EPF-4A\Java\TP4\rentmanager\rentmanager\src\main\java\com\epf\rentmanager\ui\cli\DeleteClientCommand.java
 D:\EPF-4A\Java\TP4\rentmanager\rentmanager\src\main\java\com\epf\rentmanager\dao\ReservationDao.java
 D:\EPF-4A\Java\TP4\rentmanager\rentmanager\src\main\java\com\epf\rentmanager\service\ReservationService.java
