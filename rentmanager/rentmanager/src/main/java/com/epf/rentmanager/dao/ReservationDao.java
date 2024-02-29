@@ -28,8 +28,20 @@ public class ReservationDao {
 			 PreparedStatement preparedStatement = connexion.prepareStatement(CREATE_RESERVATION_QUERY, Statement.RETURN_GENERATED_KEYS)) {
 			preparedStatement.setInt(1, reservation.getID_client());
 			preparedStatement.setInt(2, reservation.getID_vehicle());
-			preparedStatement.setDate(3, Date.valueOf(reservation.getDebut()));
-			preparedStatement.setDate(4, Date.valueOf(reservation.getFin()));
+			LocalDate debut = reservation.getDebut();
+			LocalDate fin = reservation.getFin();
+
+			// Vérifier si les dates de début et de fin ne sont pas null avant de les convertir en java.sql.Date
+			if (debut != null && fin != null) {
+				preparedStatement.setDate(3, Date.valueOf(debut));
+				preparedStatement.setDate(4, Date.valueOf(fin));
+			} else {
+				// Si l'une des dates est null, vous pouvez soit les remplacer par une date par défaut,
+				// soit les laisser null, selon les besoins de votre application
+				preparedStatement.setNull(3, Types.DATE);
+				preparedStatement.setNull(4, Types.DATE);
+			}
+
 			preparedStatement.execute();
 			ResultSet resultSet = preparedStatement.getGeneratedKeys();
 			if (resultSet.next()) {
@@ -40,6 +52,7 @@ public class ReservationDao {
 		}
 		return 0;
 	}
+
 
 	public long delete(Reservation reservation) throws DaoException {
 		try (Connection connexion = ConnectionManager.getConnection();
@@ -59,8 +72,8 @@ public class ReservationDao {
 			ResultSet resultSet = preparedStatement.executeQuery();
 			int client_id = resultSet.getInt("client_id");
 			int vehicle_id = resultSet.getInt("vehicle_id");
-			LocalDate debut = resultSet.getDate("debut").toLocalDate();
-			LocalDate fin = resultSet.getDate("fin").toLocalDate();
+			LocalDate debut = resultSet.getDate("debut") != null ? resultSet.getDate("debut").toLocalDate() : null;
+			LocalDate fin = resultSet.getDate("fin") != null ? resultSet.getDate("fin").toLocalDate() : null;
 			Reservation reservation=new Reservation(client_id, vehicle_id, debut, fin);
 			return reservation;
 		} catch (SQLException e) {
@@ -116,13 +129,22 @@ public class ReservationDao {
 				int id = resultSet.getInt("id");
 				int client_id = resultSet.getInt("client_id");
 				int vehicle_id = resultSet.getInt("vehicle_id");
-				LocalDate debut = resultSet.getDate("debut").toLocalDate();
-				LocalDate fin = resultSet.getDate("fin").toLocalDate();
+				LocalDate debut = null;
+				LocalDate fin = null;
+				Date debutDate = resultSet.getDate("debut");
+				Date finDate = resultSet.getDate("fin");
+				if (debutDate != null) {
+					debut = debutDate.toLocalDate();
+				}
+				if (finDate != null) {
+					fin = finDate.toLocalDate();
+				}
 				reservations.add(new Reservation(id, client_id, vehicle_id, debut, fin));
 			}
 		} catch (SQLException e) {
 			throw new DaoException(e.getMessage(), e);
 		}
+		System.out.println(reservations);
 		return reservations;
 	}
 

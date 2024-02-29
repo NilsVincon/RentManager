@@ -33,41 +33,26 @@
                                     <th>Email</th>
                                     <th>Action</th>
                                 </tr>
-                                <tr>
-                                    <td>1.</td>
-                                    <td>John</td>
-                                    <td>Doe</td>
-                                    <td>john.doe@epf.fr</td>
-                                    <td>
-                                        <a class="btn btn-primary" href="${pageContext.request.contextPath}/users/details?id=1">
-                                        <i class="fa fa-play"></i>
-                                        </a>
-                                        <a class="btn btn-success disabled" href="#">
-                                            <i class="fa fa-edit"></i>
-                                        </a>
-                                        <a class="btn btn-danger disabled" href="#">
-                                            <i class="fa fa-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>2.</td>
-                                    <td>Jane</td>
-                                    <td>Doe</td>
-                                    <td>jane.doe@epf.fr</td>
-                                    <td>
-                                        <a class="btn btn-primary" href="${pageContext.request.contextPath}/users/details?id=2">
-                                            <i class="fa fa-play"></i>
-                                        </a>
-                                        <a class="btn btn-success disabled" href="#">
-                                            <i class="fa fa-edit"></i>
-                                        </a>
-                                        <a class="btn btn-danger disabled" href="#">
-                                            <i class="fa fa-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
+                                <c:forEach items="${users}" var="user" varStatus="loop">
+                                    <tr>
+                                        <td>${loop.index + 1}.</td>
+                                        <td>${user.nom}</td>
+                                        <td>${user.prenom}</td>
+                                        <td>${user.email}</td>
+                                        <td>${user.naissance}</td>
+                                        <td>
+                                            <a class="btn btn-primary disabled" href="users-detail.html">
+                                                <i class="fa fa-play"></i>
+                                            </a>
+                                            <a class="btn btn-success disabled" href="#">
+                                                <i class="fa fa-edit"></i>
+                                            </a>
+                                            <a class="btn btn-danger disabled" href="#">
+                                                <i class="fa fa-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
                             </table>
                         </div>
                         <!-- /.box-body -->

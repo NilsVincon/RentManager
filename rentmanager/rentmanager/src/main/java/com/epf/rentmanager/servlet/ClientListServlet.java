@@ -30,9 +30,8 @@ public class ClientListServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            List<Client> clients = clientService.findAll();
-            System.out.println(clients);
-            request.setAttribute("users", clients);
+            List<Client> users = clientService.findAll();
+            request.setAttribute("users", users);
         }
         catch (Exception e) {
             e.printStackTrace();

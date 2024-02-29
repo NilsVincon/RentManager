@@ -33,12 +33,13 @@ public class VehicleCreateServlet extends HttpServlet {
         String constructeur = request.getParameter("constructeur");
         String model = request.getParameter("model");
         int nb_places = Integer.parseInt(request.getParameter("nb_places"));
-
+        System.out.println(constructeur);
+        System.out.println(model);
+        System.out.println(nb_places);
         Vehicle newVehicle = new Vehicle();
         newVehicle.setConstructeur(constructeur);
         newVehicle.setModel(model);
         newVehicle.setNb_place(nb_places);
-
         try {
              vehicleService.create(newVehicle);
             response.sendRedirect(request.getContextPath() + "/vehicles/list");

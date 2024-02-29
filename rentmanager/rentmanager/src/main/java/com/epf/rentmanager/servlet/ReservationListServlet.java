@@ -30,9 +30,10 @@ public class ReservationListServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            List<Reservation> resas = reservationService.findAll();
-            System.out.println(resas);
-            request.setAttribute("rents", resas);
+            System.out.println("Ca rentre");
+            List<Reservation> rents = reservationService.findAll();
+
+            request.setAttribute("rents", rents);
         }
         catch (Exception e) {
             e.printStackTrace();

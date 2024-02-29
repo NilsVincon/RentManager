@@ -40,7 +40,7 @@
                     <div class="nav-tabs-custom">
                         <ul class="nav nav-tabs">
                             <li class="active"><a href="#rents" data-toggle="tab">Reservations</a></li>
-                            <li><a href="#cars" data-toggle="tab">Voitures</a></li>
+                            <li><a href="#vehicles" data-toggle="tab">Voitures</a></li>
                         </ul>
                         <div class="tab-content">
                             <div class="active tab-pane" id="rents">
@@ -68,7 +68,7 @@
                                 </div>
                             </div>
                             <!-- /.tab-pane -->
-                            <div class="tab-pane" id="cars">
+                            <div class="tab-pane" id="vehicles">
                                 <!-- /.box-header -->
                                 <div class="box-body no-padding">
                                     <table class="table table-striped">

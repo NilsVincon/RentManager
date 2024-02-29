@@ -32,24 +32,20 @@
                         <form class="form-horizontal" method="post">
                             <div class="box-body">
                                 <div class="form-group">
-                                    <label for="manufacturer" class="col-sm-2 control-label">Marque</label>
-
-									<!-- Pour r�up�rer la valeur rentr�e dans un champ input de cette jsp au niveau de votre servlet -->
-									<!-- vous devez passer par les methodes getParameter de l'objet request, est sp�cifiant la valeur -->
-									<!-- de l'attribut "name" de l'input -->
+                                    <label for="constructeur" class="col-sm-2 control-label">Marque</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="constructeur" name="constructeur" placeholder="Marque" required>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="modele" class="col-sm-2 control-label">Model</label>
+                                    <label for="model" class="col-sm-2 control-label">Model</label>
 
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="model" name="model" placeholder="Modele" required>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="seats" class="col-sm-2 control-label">Nombre de places</label>
+                                    <label for="nb_places" class="col-sm-2 control-label">Nombre de places</label>
 
                                     <div class="col-sm-10">
                                         <input type="number" class="form-control" id="nb_places" name="nb_places" placeholder="Nombre de places" required>

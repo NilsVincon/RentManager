@@ -2,14 +2,18 @@ package com.epf.rentmanager.servlet;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.epf.rentmanager.models.Client;
 import com.epf.rentmanager.models.Reservation;
 import com.epf.rentmanager.models.Vehicle;
+import com.epf.rentmanager.service.ClientService;
 import com.epf.rentmanager.service.ReservationService;
 import com.epf.rentmanager.service.VehicleService;
 import com.epf.rentmanager.exception.ServiceException;
@@ -22,6 +26,10 @@ public class ReservationCreateServlet extends HttpServlet {
 
     @Autowired
     private ReservationService reservationService;
+    @Autowired
+    private VehicleService vehicleService;
+    @Autowired
+    private ClientService clientService;
 
     @Override
     public void init() throws ServletException {
@@ -31,15 +39,32 @@ public class ReservationCreateServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getRequestDispatcher("/WEB-INF/views/rents/create.jsp").forward(request, response);
+        try {
+            List<Vehicle> rentsvehicles = vehicleService.findAll();
+            System.out.println(rentsvehicles);
+            List<Client> rentsusers = clientService.findAll();
+            request.setAttribute("rentsusers", rentsusers);
+            request.setAttribute("rentsvehicles", rentsvehicles);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        this.getServletContext().getRequestDispatcher("/WEB-INF/views/rents/create.jsp").forward(request, response);
     }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int ID_Client = Integer.parseInt(request.getParameter("ID_client"));
-        int ID_Vehicle = Integer.parseInt(request.getParameter("ID_vehicle"));
-        LocalDate debut = LocalDate.parse(request.getParameter("debut"));
-        LocalDate fin = LocalDate.parse(request.getParameter("fin"));
-
-
+        int ID_Client = 1; //(request.getParameter("ID_client"));
+        int ID_Vehicle = 2;//(request.getParameter("ID_vehicle"));
+        LocalDate debut = null;
+        LocalDate fin = null;
+        String debutParam = request.getParameter("debut");
+        String finParam = request.getParameter("fin");
+        if (debutParam != null && finParam != null) {
+            debut = LocalDate.parse(debutParam, DateTimeFormatter.ofPattern("dd/MM/yyyy"));;
+            fin =   LocalDate.parse(finParam, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        }
+        System.out.println(debutParam);
+        System.out.println(finParam);
         Reservation newResa = new Reservation();
         newResa.setID_client(ID_Client);
         newResa.setID_vehicle(ID_Vehicle);

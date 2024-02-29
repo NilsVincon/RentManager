@@ -25,15 +25,16 @@
                     <!-- Horizontal Form -->
                     <div class="box">
                         <!-- form start -->
-                        <form class="form-horizontal" method="post" action="/rents/create">
+                        <form class="form-horizontal" method="post" action="./create">
                             <div class="box-body">
                                 <div class="form-group">
                                     <label for="car" class="col-sm-2 control-label">Voiture</label>
 
                                     <div class="col-sm-10">
                                         <select class="form-control" id="car" name="car">
-                                            <option value="1">Renault Clio</option>
-                                            <option value="2">Citroen C2</option>
+                                            <c:forEach items="${vehicles}" var="vehicle" varStatus="loop">
+                                            <option value="1">${vehicle.constructeur}+  +${vehicle.model} </option>
+                                                </c:forEach>
                                         </select>
                                     </div>
                                 </div>
@@ -48,25 +49,24 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="begin" class="col-sm-2 control-label">Date de debut</label>
+                                    <label for="debut" class="col-sm-2 control-label">Date de debut</label>
 
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="begin" name="begin" required
+                                        <input type="text" class="form-control" id="debut" name="debut" required
                                                data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="end" class="col-sm-2 control-label">Date de fin</label>
-
+                                    <label for="fin" class="col-sm-2 control-label">Date de fin</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="end" name="end" required
+                                        <input type="text" class="form-control" id="fin" name="fin" required
                                                data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
                                     </div>
                                 </div>
                             </div>
                             <!-- /.box-body -->
                             <div class="box-footer">
-                                <button type="submit" class="btn btn-info pull-right" href="${pageContext.request.contextPath}/vehicles/list">Ajouter</button>
+                                <button type="submit" class="btn btn-info pull-right">Ajouter</button>
                             </div>
                             <!-- /.box-footer -->
                         </form>

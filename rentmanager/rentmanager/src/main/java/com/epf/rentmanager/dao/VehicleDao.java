@@ -14,7 +14,7 @@ public class VehicleDao {
 
 	// Suppression de la méthode getInstance() car Spring gérera l'instanciation de ce bean
 
-	private static final String CREATE_VEHICLE_QUERY = "INSERT INTO Vehicle(constructeur,model, nb_places) VALUES(?, ?)";
+	private static final String CREATE_VEHICLE_QUERY = "INSERT INTO Vehicle(constructeur,model, nb_places) VALUES(?, ?,?)";
 	private static final String DELETE_VEHICLE_QUERY = "DELETE FROM Vehicle WHERE id=?";
 	private static final String FIND_VEHICLE_QUERY = "SELECT id, constructeur,model, nb_places FROM Vehicle WHERE id=?";
 	private static final String FIND_VEHICLES_QUERY = "SELECT id, constructeur,model, nb_places FROM Vehicle";
@@ -32,6 +32,7 @@ public class VehicleDao {
 				return resultSet.getInt(1);
 			}
 		} catch (SQLException e) {
+			System.out.println("cho pour toi");
 			throw new DaoException(e.getMessage(), e);
 		}
 		return 0;

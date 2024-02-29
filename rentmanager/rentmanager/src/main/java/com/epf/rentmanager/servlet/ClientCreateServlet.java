@@ -9,12 +9,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.epf.rentmanager.models.Client;
-import com.epf.rentmanager.models.Vehicle;
 import com.epf.rentmanager.service.ClientService;
-import com.epf.rentmanager.service.VehicleService;
 import com.epf.rentmanager.exception.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 @WebServlet("/users/create")
 public class ClientCreateServlet extends HttpServlet {
@@ -34,23 +35,34 @@ public class ClientCreateServlet extends HttpServlet {
         request.getRequestDispatcher("/WEB-INF/views/users/create.jsp").forward(request, response);
     }
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String nom = request.getParameter("nom");
-        String prenom = request.getParameter("prenom");
-        String mail = request.getParameter("mail");
-        LocalDate naissance = LocalDate.parse(request.getParameter("naissance"));
+        String nom = request.getParameter("last_name");
+        String prenom = request.getParameter("first_name");
+        String mail = request.getParameter("email");
+        String naissance = request.getParameter("naissance");
+        LocalDate datenaissance = null;
+        if (naissance != null && !naissance.isEmpty()) {
+            try {
+                datenaissance = LocalDate.parse(naissance, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            } catch (DateTimeParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+
 
         Client newClient = new Client();
         newClient.setNom(nom);
         newClient.setPrenom(prenom);
         newClient.setEmail(mail);
-        newClient.setNaissance(naissance);
+        newClient.setNaissance(datenaissance);
 
         try {
             clientService.create(newClient);
-            response.sendRedirect(request.getContextPath() + "/users/list.jsp");
+            response.sendRedirect(request.getContextPath() + "/users/list");
         } catch (ServiceException e) {
             e.printStackTrace();
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Une erreur s'est produite lors de la création du véhicule.");
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Une erreur s'est produite lors de la création du client.");
         }
     }
+
 }
