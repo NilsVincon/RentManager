@@ -32,7 +32,6 @@ public class VehicleDao {
 				return resultSet.getInt(1);
 			}
 		} catch (SQLException e) {
-			System.out.println("cho pour toi");
 			throw new DaoException(e.getMessage(), e);
 		}
 		return 0;

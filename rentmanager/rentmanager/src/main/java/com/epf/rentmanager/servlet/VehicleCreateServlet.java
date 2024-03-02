@@ -1,6 +1,7 @@
 package com.epf.rentmanager.servlet;
 
 import java.io.IOException;
+import java.util.Objects;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -41,8 +42,14 @@ public class VehicleCreateServlet extends HttpServlet {
         newVehicle.setModel(model);
         newVehicle.setNb_place(nb_places);
         try {
-             vehicleService.create(newVehicle);
-            response.sendRedirect(request.getContextPath() + "/vehicles/list");
+            vehicleService.create(newVehicle);
+            String fromVehicleCreate = request.getParameter("from_Rents");
+            System.out.println(fromVehicleCreate);
+            if ( fromVehicleCreate!= null && Objects.equals(fromVehicleCreate, "true")) {
+                response.sendRedirect(request.getContextPath() + "/rents/create?newVehicleId=" + newVehicle.getID_vehicle());
+            } else {
+                response.sendRedirect(request.getContextPath() + "/vehicles/list");
+            }
         } catch (ServiceException e) {
             e.printStackTrace();
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Une erreur s'est produite lors de la création du véhicule.");

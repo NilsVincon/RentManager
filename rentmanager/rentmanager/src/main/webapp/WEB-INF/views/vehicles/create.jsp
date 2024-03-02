@@ -29,8 +29,8 @@
                         <!-- est d�crit an l'attribut "method" de la balise forme -->
                         <!-- action indique � quel "cible" sera envoyr la requ�te, ici notre Servlet qui sera bind sur -->
                         <!-- /vehicles/create -->
-                        <form class="form-horizontal" method="post">
-                            <div class="box-body">
+                        <form class="form-horizontal" method="post" action="${pageContext.request.contextPath}/vehicles/create">
+                        <div class="box-body">
                                 <div class="form-group">
                                     <label for="constructeur" class="col-sm-2 control-label">Marque</label>
                                     <div class="col-sm-10">
@@ -70,6 +70,10 @@
                             </div>
                             <!-- /.box-footer -->
                         </form>
+                    </div>
+                    <div >
+                        <input type="hidden" name="from_Rents" value="${param.fromVehicleCreate}">
+                        ${param.fromVehicleCreate}
                     </div>
                     <!-- /.box -->
                 </div>

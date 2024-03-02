@@ -1,6 +1,7 @@
 package com.epf.rentmanager.dao;
 
 import com.epf.rentmanager.exception.DaoException;
+import com.epf.rentmanager.models.Client;
 import com.epf.rentmanager.models.Reservation;
 import com.epf.rentmanager.persistence.ConnectionManager;
 import org.springframework.stereotype.Repository;
@@ -57,12 +58,12 @@ public class ReservationDao {
 	public long delete(Reservation reservation) throws DaoException {
 		try (Connection connexion = ConnectionManager.getConnection();
 			 PreparedStatement preparedStatement = connexion.prepareStatement(DELETE_RESERVATION_QUERY)) {
-			preparedStatement.setInt(1, reservation.getID_Reservation());
+			preparedStatement.setInt(1, reservation.getID_reservation());
 			preparedStatement.execute();
 		} catch (SQLException e) {
 			throw new DaoException(e.getMessage(), e);
 		}
-		return reservation.getID_Reservation();
+		return reservation.getID_reservation();
 	}
 
 	public Reservation findResaById(long resaId) throws DaoException {
@@ -70,16 +71,17 @@ public class ReservationDao {
 			 PreparedStatement preparedStatement = connexion.prepareStatement(FIND_RESERVATIONS_BY_ID_QUERY)) {
 			preparedStatement.setLong(1, resaId);
 			ResultSet resultSet = preparedStatement.executeQuery();
-			int client_id = resultSet.getInt("client_id");
-			int vehicle_id = resultSet.getInt("vehicle_id");
-			LocalDate debut = resultSet.getDate("debut") != null ? resultSet.getDate("debut").toLocalDate() : null;
-			LocalDate fin = resultSet.getDate("fin") != null ? resultSet.getDate("fin").toLocalDate() : null;
-			Reservation reservation=new Reservation(client_id, vehicle_id, debut, fin);
-			return reservation;
+			if (resultSet.next()) {
+				int client_id = resultSet.getInt("client_id");
+				int vehicle_id = resultSet.getInt("vehicle_id");
+				LocalDate debut = resultSet.getDate("debut") != null ? resultSet.getDate("debut").toLocalDate() : null;
+				LocalDate fin = resultSet.getDate("fin") != null ? resultSet.getDate("fin").toLocalDate() : null;
+                return new Reservation(client_id, vehicle_id, debut, fin);
+			}
 		} catch (SQLException e) {
 			throw new DaoException(e.getMessage(), e);
 		}
-
+		return null;
 	}
 
 	public List<Reservation> findResaByClientId(long clientId) throws DaoException {

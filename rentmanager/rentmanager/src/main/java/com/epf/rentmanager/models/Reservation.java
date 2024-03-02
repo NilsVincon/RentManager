@@ -13,7 +13,7 @@ import java.util.List;
 
 import com.epf.rentmanager.persistence.ConnectionManager;
 public class Reservation {
-    private int ID_Reservation;
+    private int ID_reservation;
     private int ID_client;
     private int ID_vehicle;
     private LocalDate debut;
@@ -21,8 +21,8 @@ public class Reservation {
 
     public Reservation(){}
 
-    public Reservation(int ID_Reservation,int ID_client,int ID_vehicle,LocalDate debut,LocalDate fin) {
-        this.ID_Reservation = ID_Reservation;
+    public Reservation(int ID_reservation,int ID_client,int ID_vehicle,LocalDate debut,LocalDate fin) {
+        this.ID_reservation = ID_reservation;
         this.ID_client = ID_client;
         this.ID_vehicle = ID_vehicle;
         this.debut = debut;
@@ -35,12 +35,12 @@ public class Reservation {
         this.fin = fin;
     }
 
-    public int getID_Reservation() {
-        return ID_Reservation;
+    public int getID_reservation() {
+        return ID_reservation;
     }
 
-    public void setID_Reservation(int ID_Reservation) {
-        this.ID_Reservation = ID_Reservation;
+    public void setID_reservation(int ID_reservation) {
+        this.ID_reservation = ID_reservation;
     }
 
     public int getID_client() {
@@ -78,7 +78,7 @@ public class Reservation {
     @Override
     public String toString() {
         return "Reservation{" +
-                "ID_Reservation=" + ID_Reservation +
+                "ID_reservation=" + ID_reservation +
                 ", ID_client=" + ID_client +
                 ", ID_vehicle=" + ID_vehicle +
                 ", debut=" + debut +

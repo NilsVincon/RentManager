@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.epf.rentmanager.exception.ServiceException;
 import com.epf.rentmanager.models.Client;
 import com.epf.rentmanager.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,11 +33,24 @@ public class ClientListServlet extends HttpServlet {
         try {
             List<Client> users = clientService.findAll();
             request.setAttribute("users", users);
+            System.out.println(users);
         }
         catch (Exception e) {
             e.printStackTrace();
         }
         this.getServletContext().getRequestDispatcher("/WEB-INF/views/users/list.jsp").forward(request, response);
-
+    }
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int clientID = Integer.parseInt(request.getParameter("clientID"));
+        String prenom = request.getParameter("prenom");
+        String nom = request.getParameter("nom");
+        try {
+            clientService.delete(clientService.findById(clientID));
+            request.setAttribute("successMessage", "La suppression du client : "+prenom+" "+nom+" a été effectuée avec succès !");
+            response.sendRedirect(request.getContextPath() + "/users/list");
+        } catch (ServiceException e) {
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Une erreur s'est produite lors de la suppression du véhicule.");
+            throw new RuntimeException(e);
+        }
     }
 }

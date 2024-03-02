@@ -45,6 +45,10 @@ public class ReservationCreateServlet extends HttpServlet {
             List<Client> rentsusers = clientService.findAll();
             request.setAttribute("rentsusers", rentsusers);
             request.setAttribute("rentsvehicles", rentsvehicles);
+            String vehicleCreated = request.getParameter("vehicleCreated");
+            if ("true".equals(vehicleCreated)) {
+                request.setAttribute("newVehicleCreated", true);
+            }
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -53,8 +57,8 @@ public class ReservationCreateServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int ID_Client = 1; //(request.getParameter("ID_client"));
-        int ID_Vehicle = 2;//(request.getParameter("ID_vehicle"));
+        int ID_Client = Integer.parseInt((request.getParameter("client")));
+        int ID_Vehicle = Integer.parseInt((request.getParameter("vehicle")));
         LocalDate debut = null;
         LocalDate fin = null;
         String debutParam = request.getParameter("debut");

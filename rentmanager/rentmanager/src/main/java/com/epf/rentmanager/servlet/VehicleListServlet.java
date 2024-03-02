@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.epf.rentmanager.exception.DaoException;
+import com.epf.rentmanager.exception.ServiceException;
 import com.epf.rentmanager.models.Vehicle;
 import com.epf.rentmanager.service.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +40,19 @@ public class VehicleListServlet extends HttpServlet {
             e.printStackTrace();
         }
         this.getServletContext().getRequestDispatcher("/WEB-INF/views/vehicles/list.jsp").forward(request, response);
+    }
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int vehicleId = Integer.parseInt(request.getParameter("vehicleId"));
+        String constructeur = request.getParameter("constructeur");
+        String model = request.getParameter("model");
 
+        try {
+            vehicleService.delete(vehicleService.findById(vehicleId));
+            request.setAttribute("successMessage", "La suppression du vehicule : "+constructeur+" "+model+" a été effectuée avec succès !");
+            response.sendRedirect(request.getContextPath() + "/vehicles/list");
+        } catch (ServiceException e) {
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Une erreur s'est produite lors de la suppression du véhicule.");
+            throw new RuntimeException(e);
+        }
     }
 }
