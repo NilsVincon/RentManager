@@ -68,12 +68,11 @@
                             <div class="box-footer">
                                 <button type="submit" class="btn btn-info pull-right">Ajouter</button>
                             </div>
+                            <label>
+                                <input type="hidden" name="from_rents_create" value="${param.from_rents_create}">
+                            </label>
                             <!-- /.box-footer -->
                         </form>
-                    </div>
-                    <div >
-                        <input type="hidden" name="from_Rents" value="${param.fromVehicleCreate}">
-                        ${param.fromVehicleCreate}
                     </div>
                     <!-- /.box -->
                 </div>

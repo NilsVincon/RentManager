@@ -1,7 +1,6 @@
 package com.epf.rentmanager.dao;
 
 import com.epf.rentmanager.exception.DaoException;
-import com.epf.rentmanager.models.Client;
 import com.epf.rentmanager.models.Reservation;
 import com.epf.rentmanager.persistence.ConnectionManager;
 import org.springframework.stereotype.Repository;
@@ -84,7 +83,7 @@ public class ReservationDao {
 		return null;
 	}
 
-	public List<Reservation> findResaByClientId(long clientId) throws DaoException {
+	public List<Reservation> findResaByClientId(int clientId) throws DaoException {
 		List<Reservation> reservations = new ArrayList<>();
 		try (Connection connexion = ConnectionManager.getConnection();
 			 PreparedStatement preparedStatement = connexion.prepareStatement(FIND_RESERVATIONS_BY_CLIENT_QUERY)) {
@@ -95,11 +94,12 @@ public class ReservationDao {
 				int vehicle_id = resultSet.getInt("vehicle_id");
 				LocalDate debut = resultSet.getDate("debut").toLocalDate();
 				LocalDate fin = resultSet.getDate("fin").toLocalDate();
-				reservations.add(new Reservation(id, vehicle_id, debut, fin));
+				reservations.add(new Reservation(id,clientId, vehicle_id, debut, fin));
 			}
 		} catch (SQLException e) {
 			throw new DaoException(e.getMessage(), e);
 		}
+		System.out.println("Liste resa DAO  " + reservations);
 		return reservations;
 	}
 
@@ -146,7 +146,6 @@ public class ReservationDao {
 		} catch (SQLException e) {
 			throw new DaoException(e.getMessage(), e);
 		}
-		System.out.println(reservations);
 		return reservations;
 	}
 

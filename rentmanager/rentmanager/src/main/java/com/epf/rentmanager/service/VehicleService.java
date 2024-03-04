@@ -20,7 +20,7 @@ public class VehicleService {
 		this.vehicleDao = vehicleDao;
 	}
 
-	public long create(Vehicle vehicle) throws ServiceException {
+	public int create(Vehicle vehicle) throws ServiceException {
 		try {
 			if (vehicle.getConstructeur().isEmpty()) {
 				throw new ServiceException("Le véhicule doit avoir un constructeur.");
@@ -45,7 +45,7 @@ public class VehicleService {
 		}
 	}
 
-	public Vehicle findById(long id) throws ServiceException {
+	public Vehicle findById(int id) throws ServiceException {
 		try {
 			return vehicleDao.findById(id);
 		} catch (DaoException e) {

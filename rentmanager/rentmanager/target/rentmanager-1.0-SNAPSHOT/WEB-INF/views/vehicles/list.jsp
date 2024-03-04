@@ -37,21 +37,26 @@
                                 <!-- Utilisation de la boucle forEach -->
                                 <c:forEach items="${vehicles}" var="vehicle" varStatus="loop">
                                     <tr>
-                                        <td>${loop.index + 1}.</td>
+                                        <td>${vehicle.ID_vehicle}</td>
                                         <td>${vehicle.constructeur}</td>
                                         <td>${vehicle.model}</td>
                                         <td>${vehicle.nb_place}</td>
-                                        <!--<td>John Doe</td>-->
                                         <td>
+                                            <form method="post">
                                             <a class="btn btn-primary disabled" href="car-detail.html">
                                                 <i class="fa fa-play"></i>
                                             </a>
                                             <a class="btn btn-success disabled" href="#">
                                                 <i class="fa fa-edit"></i>
                                             </a>
-                                            <a class="btn btn-danger disabled" href="#">
-                                                <i class="fa fa-trash"></i>
-                                            </a>
+                                                <input type="hidden" name="vehicleId" value="${vehicle.ID_vehicle}">
+                                                <input type="hidden" name="constructeur" value="${vehicle.constructeur}">
+                                                <input type="hidden" name="model" value="${vehicle.model}">
+                                                <button type="submit" class="btn btn-danger">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                            </form>
+
                                         </td>
                                     </tr>
                                 </c:forEach>
@@ -72,5 +77,10 @@
 <!-- ./wrapper -->
 
 <%@ include file="/WEB-INF/views/common/js_imports.jsp" %>
+<c:if test="${not empty requestScope.successMessage}">
+    <div class="alert alert-success" role="alert">
+            ${requestScope.successMessage}
+    </div>
+</c:if>
 </body>
 </html>

@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.epf.rentmanager.exception.DaoException;
 import com.epf.rentmanager.exception.ServiceException;
 import com.epf.rentmanager.models.Vehicle;
 import com.epf.rentmanager.service.VehicleService;
@@ -45,6 +44,7 @@ public class VehicleListServlet extends HttpServlet {
         int vehicleId = Integer.parseInt(request.getParameter("vehicleId"));
         String constructeur = request.getParameter("constructeur");
         String model = request.getParameter("model");
+        System.out.println(constructeur);
 
         try {
             vehicleService.delete(vehicleService.findById(vehicleId));

@@ -42,9 +42,9 @@
                                         <td>${user.naissance}</td>
                                         <td>
                                             <form method="post">
-                                            <a class="btn btn-primary disabled" href="users-detail.html">
-                                                <i class="fa fa-play"></i>
-                                            </a>
+                                                <a class="btn btn-primary" href="${pageContext.request.contextPath}/users/details?client_id=${user.ID_client}">
+                                                    <i class="fa fa-play"></i>
+                                                </a>
                                             <a class="btn btn-success disabled" href="#">
                                                 <i class="fa fa-edit"></i>
                                             </a>

@@ -10,11 +10,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.epf.rentmanager.exception.ServiceException;
-import com.epf.rentmanager.models.Reservation;
+import com.epf.rentmanager.models.Client;
+import com.epf.rentmanager.models.Vehicle;
 import com.epf.rentmanager.service.ClientService;
 import com.epf.rentmanager.service.ReservationService;
 import com.epf.rentmanager.service.VehicleService;
+import com.epf.rentmanager.exception.ServiceException;
+import com.epf.rentmanager.models.Reservation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
@@ -41,26 +43,14 @@ public class ReservationListServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             List<Reservation> rents = reservationService.findAll();
-            List<String> noms_clients = new ArrayList<>();
-            List<String> prenoms_clients = new ArrayList<>();
-            List<String> constucteurs_vehciles = new ArrayList<>();
-            List<String> models_vehicles = new ArrayList<>();
             for (Reservation reservation : rents) {
-                String nom = (clientService.findById(reservation.getID_client())).getNom();
-                noms_clients.add(nom);
-                String prenom = (clientService.findById(reservation.getID_client())).getPrenom();
-                prenoms_clients.add(prenom);
-                String constructeur = (vehicleService.findById(reservation.getID_client())).getConstructeur();
-                constucteurs_vehciles.add(constructeur);
-                String model = (vehicleService.findById(reservation.getID_client())).getModel();
-                models_vehicles.add(model);
-
+                Vehicle vehicle = vehicleService.findById(reservation.getID_vehicle());
+                Client client = clientService.findById(reservation.getID_client());
+                reservation.setClientName(client.getNom(),client.getPrenom());
+                reservation.setVehicleName(vehicle.getConstructeur(),vehicle.getModel());
             }
+            System.out.println(rents);
             request.setAttribute("rents", rents);
-            request.setAttribute("nom", noms_clients);
-            request.setAttribute("prenom", prenoms_clients);
-            request.setAttribute("constructeur", constucteurs_vehciles);
-            request.setAttribute("model", models_vehicles);
         }
         catch (Exception e) {
             e.printStackTrace();

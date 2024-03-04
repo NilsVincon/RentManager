@@ -32,6 +32,10 @@ public class VehicleCreateServlet extends HttpServlet {
     }
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String constructeur = request.getParameter("constructeur");
+        StringBuffer url = request.getRequestURL();
+        System.out.println("URL de la requête : " + url.toString());
+        String from_rents_create = (request.getParameter("from_rents_create"));
+        System.out.println("fromVehicleCreate : "+from_rents_create);
         String model = request.getParameter("model");
         int nb_places = Integer.parseInt(request.getParameter("nb_places"));
         System.out.println(constructeur);
@@ -43,10 +47,8 @@ public class VehicleCreateServlet extends HttpServlet {
         newVehicle.setNb_place(nb_places);
         try {
             vehicleService.create(newVehicle);
-            String fromVehicleCreate = request.getParameter("from_Rents");
-            System.out.println(fromVehicleCreate);
-            if ( fromVehicleCreate!= null && Objects.equals(fromVehicleCreate, "true")) {
-                response.sendRedirect(request.getContextPath() + "/rents/create?newVehicleId=" + newVehicle.getID_vehicle());
+            if ( from_rents_create!= null && Objects.equals(from_rents_create, "true")) {
+                response.sendRedirect(request.getContextPath() + "/rents/create?newVehicle_name=" + newVehicle.getConstructeur()+newVehicle.getModel());
             } else {
                 response.sendRedirect(request.getContextPath() + "/vehicles/list");
             }

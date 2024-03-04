@@ -10,12 +10,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.epf.rentmanager.models.Client;
-import com.epf.rentmanager.models.Reservation;
-import com.epf.rentmanager.models.Vehicle;
 import com.epf.rentmanager.service.ClientService;
 import com.epf.rentmanager.service.ReservationService;
 import com.epf.rentmanager.service.VehicleService;
+import com.epf.rentmanager.models.Client;
+import com.epf.rentmanager.models.Reservation;
+import com.epf.rentmanager.models.Vehicle;
 import com.epf.rentmanager.exception.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
@@ -59,6 +59,8 @@ public class ReservationCreateServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int ID_Client = Integer.parseInt((request.getParameter("client")));
         int ID_Vehicle = Integer.parseInt((request.getParameter("vehicle")));
+        System.out.println("client : "+ID_Client);
+        System.out.println("vehicle : "+ID_Vehicle);
         LocalDate debut = null;
         LocalDate fin = null;
         String debutParam = request.getParameter("debut");
@@ -77,6 +79,7 @@ public class ReservationCreateServlet extends HttpServlet {
 
         try {
             reservationService.create(newResa);
+            System.out.println(newResa);
             response.sendRedirect(request.getContextPath() + "/rents/list");
         } catch (ServiceException e) {
             e.printStackTrace();

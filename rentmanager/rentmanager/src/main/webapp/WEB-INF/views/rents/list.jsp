@@ -33,14 +33,10 @@
                                     <th>Action</th>
                                 </tr>
                                 <c:forEach items="${rents}" var="resa" varStatus="loop">
-                                    <c:set var="noms_clients" value="${nom}" />
-                                    <c:set var="prenoms_clients" value="${prenom}" />
-                                    <c:set var="constructeurs_vehicles" value="${constructeur}" />
-                                    <c:set var="models_vehicles" value="${model}" />
                                     <tr>
                                         <td>${resa.ID_reservation}</td>
-                                        <td>${constructeurs_vehicles[loop.index]} ${models_vehicles[loop.index]}</td>
-                                        <td>${noms_clients[loop.index]} ${prenoms_clients[loop.index]}</td>
+                                        <td>${resa.clientName}</td>
+                                        <td>${resa.vehicleName}</td>
                                         <td>${resa.debut}</td>
                                         <td>${resa.fin}</td>
                                         <td>

@@ -1,17 +1,16 @@
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <!DOCTYPE html>
 <html>
-<%@include file="/WEB-INF/views/common/head.jsp"%>
+<head>
+    <title>Votre titre</title>
+    <%@include file="/WEB-INF/views/common/head.jsp"%>
+</head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
-
     <%@ include file="/WEB-INF/views/common/header.jsp" %>
-    <!-- Left side column. contains the logo and sidebar -->
     <%@ include file="/WEB-INF/views/common/sidebar.jsp" %>
 
-    <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
                 Reservations
@@ -19,7 +18,6 @@
             </h1>
         </section>
 
-        <!-- Main content -->
         <section class="content">
             <div class="row">
                 <div class="col-md-12">
@@ -36,21 +34,24 @@
                                 </tr>
                                 <c:forEach items="${rents}" var="resa" varStatus="loop">
                                     <tr>
-                                        <td>${loop.index + 1}.</td>
-                                        <td>${resa.ID_client}</td>
-                                        <td>${resa.ID_vehicle}</td>
+                                        <td>${resa.ID_reservation}</td>
+                                        <td>${resa.clientName}</td>
+                                        <td>${resa.vehicleName}</td>
                                         <td>${resa.debut}</td>
                                         <td>${resa.fin}</td>
                                         <td>
-                                            <a class="btn btn-primary disabled" href="users-detail.html">
+                                            <form method="post">
+                                            <a class="btn btn-primary disabled" href="car-detail.html">
                                                 <i class="fa fa-play"></i>
                                             </a>
                                             <a class="btn btn-success disabled" href="#">
                                                 <i class="fa fa-edit"></i>
                                             </a>
-                                            <a class="btn btn-danger disabled" href="#">
+                                            <input type="hidden" name="reservationId" value="${resa.ID_reservation}">
+                                            <button type="submit" class="btn btn-danger">
                                                 <i class="fa fa-trash"></i>
-                                            </a>
+                                            </button>
+                                        </form>
                                         </td>
                                     </tr>
                                 </c:forEach>
@@ -63,13 +64,10 @@
                 <!-- /.col -->
             </div>
         </section>
-        <!-- /.content -->
     </div>
 
     <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 </div>
-<!-- ./wrapper -->
-
 <%@ include file="/WEB-INF/views/common/js_imports.jsp" %>
 </body>
 </html>

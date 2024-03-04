@@ -27,7 +27,7 @@ public class CreateVehicleCommand implements Command {
         vehicle.setModel(model);
         vehicle.setNb_place(nb_place);
 
-        long id = vehicleService.create(vehicle);
+        int id = vehicleService.create(vehicle);
         System.out.println("Vehicule créé avec l'identifiant : " + id);
     }
 }

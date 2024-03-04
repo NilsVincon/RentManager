@@ -20,7 +20,7 @@ public class VehicleDao {
 	private static final String FIND_VEHICLES_QUERY = "SELECT id, constructeur,model, nb_places FROM Vehicle";
 	private static final String COUNT_VEHICLES_QUERY = "SELECT COUNT(*) AS total FROM Vehicle";
 
-	public long create(Vehicle vehicle) throws DaoException {
+	public int create(Vehicle vehicle) throws DaoException {
 		try (Connection connexion = ConnectionManager.getConnection();
 			 PreparedStatement preparedStatement = connexion.prepareStatement(CREATE_VEHICLE_QUERY, Statement.RETURN_GENERATED_KEYS)) {
 			preparedStatement.setString(1, vehicle.getConstructeur());
@@ -48,7 +48,7 @@ public class VehicleDao {
 		return vehicle.getID_vehicle();
 	}
 
-	public Vehicle findById(long id) throws DaoException {
+	public Vehicle findById(int id) throws DaoException {
 		try (Connection connexion = ConnectionManager.getConnection();
 			 PreparedStatement preparedStatement = connexion.prepareStatement(FIND_VEHICLE_QUERY)) {
 			preparedStatement.setLong(1, id);

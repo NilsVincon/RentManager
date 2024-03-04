@@ -1,9 +1,9 @@
 package com.epf.rentmanager.ui.cli;
 
-import com.epf.rentmanager.exception.ServiceException;
 import com.epf.rentmanager.models.Client;
 import com.epf.rentmanager.service.ClientService;
 import com.epf.rentmanager.utils.IOUtils;
+import com.epf.rentmanager.exception.ServiceException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

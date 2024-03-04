@@ -27,12 +27,14 @@
                                     <label for="vehicle" class="col-sm-2 control-label">Voiture</label>
                                     <div class="col-sm-10">
                                         <select class="form-control" id="vehicle" name="vehicle">
-                                            <c:forEach items="${rentsvehicles}" var="vehicle" varStatus="loop">
-                                                <option value="${vehicle.ID_vehicle}">${vehicle.constructeur} ${vehicle.model}</option>
+                                            <c:forEach items="${rentsvehicles}" var="car" varStatus="loop">
+                                                <option value="${car.ID_vehicle}">${car.constructeur} ${car.model}</option>
                                             </c:forEach>
                                             <option>
                                         </select>
-                                        <button type="button" class="btn btn-info pull-left" onclick="redirectToCreateVehicle()">Ajouter une voiture</button>
+                                        <a class="btn btn-primary" href="${pageContext.request.contextPath}/vehicles/create?from_rents_create=${true}">
+                                            <i class="fa fa-play"></i>
+                                        </a>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -77,20 +79,20 @@
 <script src="${pageContext.request.contextPath}/resources/plugins/input-mask/jquery.inputmask.extensions.js"></script>
 <script>
     function selectNewVehicle() {
-        var newVehicleId = "${param.newVehicleId}";
-        var fromVehicleCreate = "${param.fromVehicleCreate}";
-
-        if (fromVehicleCreate === "true" && newVehicleId) {
-            $("#vehicle").val(newVehicleId);
+        var newVehicleName = document.getElementById("new_Vehicle_name").value;
+        if (newVehicleName !== "") {
+            console.log(newVehicleName);
+            $("#vehicle").val(newVehicleName);
         }
     }
-    function redirectToCreateVehicle() {
-        window.location.href = "${pageContext.request.contextPath}/vehicles/create?fromVehicleCreate=true";
-    }
+
     $(function () {
-        selectNewVehicle();
+        selectNewVehicle(); // Assurez-vous que la fonction est appelée lors du chargement de la page
         $('[data-mask]').inputmask();
     });
 </script>
+<label>
+    <input type='hidden' id="new_Vehicle_name" value="${param.newVehicle_name}">
+</label>
 </body>
 </html>

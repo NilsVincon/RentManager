@@ -1,24 +1,17 @@
 package com.epf.rentmanager.models;
 
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
-import com.epf.rentmanager.persistence.ConnectionManager;
 public class Reservation {
     private int ID_reservation;
     private int ID_client;
     private int ID_vehicle;
     private LocalDate debut;
     private LocalDate fin;
+    private String vehicleName;
 
+    private String clientName;
     public Reservation(){}
 
     public Reservation(int ID_reservation,int ID_client,int ID_vehicle,LocalDate debut,LocalDate fin) {
@@ -75,6 +68,18 @@ public class Reservation {
         this.fin = fin;
     }
 
+    public void setVehicleName(String constructeur,String model){
+        this.vehicleName = constructeur +" "+ model;
+    }
+    public String getVehicleName(){
+        return this.vehicleName;
+    }
+    public void setClientName(String nom,String prenom){
+        this.clientName = nom + " "+ prenom;
+    }
+    public String getClientName(){
+        return this.clientName;
+    }
     @Override
     public String toString() {
         return "Reservation{" +
@@ -83,6 +88,8 @@ public class Reservation {
                 ", ID_vehicle=" + ID_vehicle +
                 ", debut=" + debut +
                 ", fin=" + fin +
+                ", nom_client=" + clientName +
+                "; nom_vehicle" + vehicleName +
                 '}';
     }
 }

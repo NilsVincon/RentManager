@@ -50,7 +50,7 @@ public class ClientDao {
 		return client.getID_client();
 	}
 
-	public Client findById(long id) throws DaoException {
+	public Client findById(int id) throws DaoException {
 		try (Connection connexion = ConnectionManager.getConnection();
 			 PreparedStatement preparedStatement = connexion.prepareStatement(FIND_CLIENT_QUERY)) {
 			preparedStatement.setLong(1, id);

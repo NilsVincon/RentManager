@@ -1,7 +1,7 @@
 package com.epf.rentmanager.service;
 
-import com.epf.rentmanager.dao.ReservationDao;
 import com.epf.rentmanager.exception.DaoException;
+import com.epf.rentmanager.dao.ReservationDao;
 import com.epf.rentmanager.exception.ServiceException;
 import com.epf.rentmanager.models.Reservation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +36,7 @@ public class ReservationService {
         }
     }
 
-    public Reservation findResaById(long id) throws ServiceException {
+    public Reservation findResaById(int id) throws ServiceException {
         try {
             return reservationDao.findResaById(id);
         } catch (DaoException e) {
@@ -44,7 +44,7 @@ public class ReservationService {
         }
     }
 
-    public List<Reservation>  findResaByClientId(long id) throws ServiceException {
+    public List<Reservation>  findResaByClientId(int id) throws ServiceException {
         try {
             return reservationDao.findResaByClientId(id);
         } catch (DaoException e) {

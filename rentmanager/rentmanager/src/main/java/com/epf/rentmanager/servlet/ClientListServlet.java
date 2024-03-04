@@ -9,9 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.epf.rentmanager.service.ClientService;
 import com.epf.rentmanager.exception.ServiceException;
 import com.epf.rentmanager.models.Client;
-import com.epf.rentmanager.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
