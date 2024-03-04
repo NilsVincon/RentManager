@@ -33,7 +33,7 @@
                                             <option>
                                         </select>
                                         <a class="btn btn-primary" href="${pageContext.request.contextPath}/vehicles/create?from_rents_create=${true}">
-                                            <i class="fa fa-play"></i>
+                                            Ajouter un vehicule
                                         </a>
                                     </div>
                                 </div>
@@ -80,9 +80,12 @@
 <script>
     function selectNewVehicle() {
         var newVehicleName = document.getElementById("new_Vehicle_name").value;
+
         if (newVehicleName !== "") {
-            console.log(newVehicleName);
-            $("#vehicle").val(newVehicleName);
+            var vehicleSelect = document.getElementById('vehicle');
+            var options = vehicleSelect.options;
+            var lastOption = options[options.length - 2];
+            lastOption.selected = true;
         }
     }
 
