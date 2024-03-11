@@ -57,15 +57,17 @@ public class ReservationDao {
 	public long delete(Reservation reservation) throws DaoException {
 		try (Connection connexion = ConnectionManager.getConnection();
 			 PreparedStatement preparedStatement = connexion.prepareStatement(DELETE_RESERVATION_QUERY)) {
+			System.out.println(reservation);
 			preparedStatement.setInt(1, reservation.getID_reservation());
-			preparedStatement.execute();
+			long line = preparedStatement.executeUpdate();
+			System.out.println(line);
+			return line;
 		} catch (SQLException e) {
 			throw new DaoException(e.getMessage(), e);
 		}
-		return reservation.getID_reservation();
 	}
 
-	public Reservation findResaById(long resaId) throws DaoException {
+	public Reservation findResaById(int resaId) throws DaoException {
 		try (Connection connexion = ConnectionManager.getConnection();
 			 PreparedStatement preparedStatement = connexion.prepareStatement(FIND_RESERVATIONS_BY_ID_QUERY)) {
 			preparedStatement.setLong(1, resaId);
@@ -75,7 +77,7 @@ public class ReservationDao {
 				int vehicle_id = resultSet.getInt("vehicle_id");
 				LocalDate debut = resultSet.getDate("debut") != null ? resultSet.getDate("debut").toLocalDate() : null;
 				LocalDate fin = resultSet.getDate("fin") != null ? resultSet.getDate("fin").toLocalDate() : null;
-                return new Reservation(client_id, vehicle_id, debut, fin);
+                return new Reservation(resaId,client_id, vehicle_id, debut, fin);
 			}
 		} catch (SQLException e) {
 			throw new DaoException(e.getMessage(), e);

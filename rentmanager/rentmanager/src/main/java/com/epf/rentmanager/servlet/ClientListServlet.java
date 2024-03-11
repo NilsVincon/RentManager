@@ -2,6 +2,7 @@ package com.epf.rentmanager.servlet;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -34,23 +35,32 @@ public class ClientListServlet extends HttpServlet {
             List<Client> users = clientService.findAll();
             request.setAttribute("users", users);
             System.out.println(users);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         this.getServletContext().getRequestDispatcher("/WEB-INF/views/users/list.jsp").forward(request, response);
     }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getParameter("action");
         int clientID = Integer.parseInt(request.getParameter("clientID"));
-        String prenom = request.getParameter("prenom");
-        String nom = request.getParameter("nom");
-        try {
-            clientService.delete(clientService.findById(clientID));
-            request.setAttribute("successMessage", "La suppression du client : "+prenom+" "+nom+" a été effectuée avec succès !");
-            response.sendRedirect(request.getContextPath() + "/users/list");
-        } catch (ServiceException e) {
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Une erreur s'est produite lors de la suppression du véhicule.");
-            throw new RuntimeException(e);
+        if (Objects.equals(action, "delete_client")) {
+            String prenom = request.getParameter("prenom");
+            String nom = request.getParameter("nom");
+            try {
+                clientService.delete(clientService.findById(clientID));
+                request.setAttribute("successMessage", "La suppression du client : " + prenom + " " + nom + " a été effectuée avec succès !");
+                response.sendRedirect(request.getContextPath() + "/users/list");
+            } catch (ServiceException e) {
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Une erreur s'est produite lors de la suppression du véhicule.");
+                throw new RuntimeException(e);
+            }
         }
+        if (Objects.equals(action, "modif_client")) {
+           
+        }
+
+
+
     }
 }

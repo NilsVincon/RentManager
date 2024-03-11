@@ -1,9 +1,9 @@
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
     <title>Votre titre</title>
-    <%@include file="/WEB-INF/views/common/head.jsp"%>
+    <%@include file="/WEB-INF/views/common/head.jsp" %>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -41,17 +41,15 @@
                                         <td>${resa.fin}</td>
                                         <td>
                                             <form method="post">
-                                            <a class="btn btn-primary disabled" href="car-detail.html">
-                                                <i class="fa fa-play"></i>
-                                            </a>
-                                            <a class="btn btn-success disabled" href="#">
-                                                <i class="fa fa-edit"></i>
-                                            </a>
-                                            <input type="hidden" name="reservationId" value="${resa.ID_reservation}">
-                                            <button type="submit" class="btn btn-danger">
-                                                <i class="fa fa-trash"></i>
-                                            </button>
-                                        </form>
+                                                <a class="btn btn-success disabled" href="#">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
+                                                <input type="hidden" name="reservationId"
+                                                       value="${resa.ID_reservation}">
+                                                <button type="submit" class="btn btn-danger">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                            </form>
                                         </td>
                                     </tr>
                                 </c:forEach>

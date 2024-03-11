@@ -1,7 +1,8 @@
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
-<%@include file="/WEB-INF/views/common/head.jsp"%>
+<%@include file="/WEB-INF/views/common/head.jsp" %>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 
@@ -43,14 +44,12 @@
                                         <td>${vehicle.nb_place}</td>
                                         <td>
                                             <form method="post">
-                                            <a class="btn btn-primary disabled" href="car-detail.html">
-                                                <i class="fa fa-play"></i>
-                                            </a>
-                                            <a class="btn btn-success disabled" href="#">
-                                                <i class="fa fa-edit"></i>
-                                            </a>
+                                                <a class="btn btn-success disabled" href="#">
+                                                    <i class="fa fa-edit"></i>
+                                                </a>
                                                 <input type="hidden" name="vehicleId" value="${vehicle.ID_vehicle}">
-                                                <input type="hidden" name="constructeur" value="${vehicle.constructeur}">
+                                                <input type="hidden" name="constructeur"
+                                                       value="${vehicle.constructeur}">
                                                 <input type="hidden" name="model" value="${vehicle.model}">
                                                 <button type="submit" class="btn btn-danger">
                                                     <i class="fa fa-trash"></i>

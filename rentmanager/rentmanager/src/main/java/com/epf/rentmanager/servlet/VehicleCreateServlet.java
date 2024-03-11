@@ -32,8 +32,6 @@ public class VehicleCreateServlet extends HttpServlet {
     }
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String constructeur = request.getParameter("constructeur");
-        StringBuffer url = request.getRequestURL();
-        System.out.println("URL de la requête : " + url.toString());
         String from_rents_create = (request.getParameter("from_rents_create"));
         System.out.println("fromVehicleCreate : "+from_rents_create);
         String model = request.getParameter("model");
@@ -45,10 +43,17 @@ public class VehicleCreateServlet extends HttpServlet {
         newVehicle.setConstructeur(constructeur);
         newVehicle.setModel(model);
         newVehicle.setNb_place(nb_places);
+        //VERIFICATION NOMBRE PLACE ENTRE 2 ET 9
+        if ((nb_places<2)||(nb_places>9)){
+            request.setAttribute("nbplaceError", true);
+            request.getRequestDispatcher("/WEB-INF/views/vehicles/create.jsp").forward(request, response);
+            return;
+        }
+
         try {
             vehicleService.create(newVehicle);
             if ( from_rents_create!= null && Objects.equals(from_rents_create, "true")) {
-                response.sendRedirect(request.getContextPath() + "/rents/create?newVehicle_name=" + newVehicle.getConstructeur()+newVehicle.getModel());
+                response.sendRedirect(request.getContextPath() + "/rents/create?newVehicle_name=true");
             } else {
                 response.sendRedirect(request.getContextPath() + "/vehicles/list");
             }

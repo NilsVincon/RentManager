@@ -1,7 +1,8 @@
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
-<html>
-<%@include file="/WEB-INF/views/common/head.jsp"%>
+<html lang="fr">
+<%@include file="/WEB-INF/views/common/head.jsp" %>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 
@@ -31,28 +32,30 @@
                                     <th>Nom</th>
                                     <th>Prenom</th>
                                     <th>Email</th>
+                                    <th>Naissance</th>
                                     <th>Action</th>
                                 </tr>
                                 <c:forEach items="${users}" var="user" varStatus="loop">
                                     <tr>
                                         <td>${user.ID_client}</td>
-                                        <td>${user.nom}</td>
+                                        <td>${fn:toUpperCase(user.nom)}</td>
                                         <td>${user.prenom}</td>
                                         <td>${user.email}</td>
                                         <td>${user.naissance}</td>
                                         <td>
                                             <form method="post">
-                                                <a class="btn btn-primary" href="${pageContext.request.contextPath}/users/details?client_id=${user.ID_client}">
+                                                <a class="btn btn-primary"
+                                                   href="${pageContext.request.contextPath}/users/details?client_id=${user.ID_client}">
                                                     <i class="fa fa-play"></i>
                                                 </a>
-                                            <a class="btn btn-success disabled" href="#">
-                                                <i class="fa fa-edit"></i>
-                                            </a>
+                                                <button type="submit" name="action" value="modif_client" class="btn btn-success">
+                                                    <i class="fa fa-edit"></i>
+                                                </button>
 
                                                 <input type="hidden" name="clientID" value="${user.ID_client}">
                                                 <input type="hidden" name="nom" value="${user.nom}">
                                                 <input type="hidden" name="prenom" value="${user.prenom}">
-                                                <button type="submit" class="btn btn-danger">
+                                                <button type="submit" name="action" value="delete_client" class="btn btn-danger">
                                                     <i class="fa fa-trash"></i>
                                                 </button>
                                             </form>

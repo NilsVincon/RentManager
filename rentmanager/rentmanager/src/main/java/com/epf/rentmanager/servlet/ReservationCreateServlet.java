@@ -40,6 +40,7 @@ public class ReservationCreateServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
+            System.out.println("Je suis a ");
             List<Vehicle> rentsvehicles = vehicleService.findAll();
             System.out.println(rentsvehicles);
             List<Client> rentsusers = clientService.findAll();
@@ -68,7 +69,36 @@ public class ReservationCreateServlet extends HttpServlet {
         if (debutParam != null && finParam != null) {
             debut = LocalDate.parse(debutParam, DateTimeFormatter.ofPattern("dd/MM/yyyy"));;
             fin =   LocalDate.parse(finParam, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            //VERIFICATION DATE 7 JOURS MAX
+            if (debut.plusDays(7).isBefore(fin)) {
+                request.setAttribute("dateError", true);
+                doGet(request, response);
+                return;
+            }
+            //VERIFICATION DEBUT AVANT FIN
+            if (fin.isBefore(debut)) {
+                request.setAttribute("datefinError", true);
+                doGet(request, response);
+                return;
+            }
         }
+        List<Reservation> reservations= null;
+        try {
+            reservations = reservationService.findResaByVehicleId(ID_Vehicle);
+        } catch (ServiceException e) {
+            throw new RuntimeException(e);
+        }
+        for (Reservation reservation : reservations) {
+            if (((debut.isAfter(reservation.getDebut()) || debut.isEqual(reservation.getDebut())) && debut.isBefore(reservation.getFin()) || debut.isEqual(reservation.getFin()))||((fin.isAfter(reservation.getDebut()) || fin.isEqual(reservation.getDebut())) && fin.isBefore(reservation.getFin()) || fin.isEqual(reservation.getFin())))
+                  {
+                request.setAttribute("periodError", true);
+                doGet(request, response);
+                return;
+            }
+        }
+
+
+
         System.out.println(debutParam);
         System.out.println(finParam);
         Reservation newResa = new Reservation();

@@ -1,5 +1,6 @@
 package com.epf.rentmanager.service;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import com.epf.rentmanager.dao.ClientDao;
@@ -63,4 +64,11 @@ public class ClientService {
 			throw new ServiceException("Erreur lors du comptage des clients.");
 		}
 	}
+	public void update(int id,Client newClient) throws ServiceException{
+		try {
+			 clientDao.update(id,newClient);
+		}catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

@@ -1,7 +1,8 @@
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
-<%@include file="/WEB-INF/views/common/head.jsp"%>
+<%@include file="/WEB-INF/views/common/head.jsp" %>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 
@@ -31,21 +32,24 @@
                                     <label for="last_name" class="col-sm-2 control-label">Nom</label>
 
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Nom">
+                                        <input type="text" class="form-control" id="last_name" name="last_name"
+                                               placeholder="Nom">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="first_name" class="col-sm-2 control-label">Prenom</label>
 
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="first_name" name="first_name" placeholder="Prenom">
+                                        <input type="text" class="form-control" id="first_name" name="first_name"
+                                               placeholder="Prenom">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="email" class="col-sm-2 control-label">Email</label>
 
                                     <div class="col-sm-10">
-                                        <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+                                        <input type="email" class="form-control" id="email" name="email"
+                                               placeholder="Email">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -57,10 +61,23 @@
                                     </div>
                                 </div>
                             </div>
+                            <% if (request.getAttribute("ageError") != null) { %>
+                            <span style="color: red;">Le client doit avoir 18 ans ou plus</span>
+                            <% } %>
+                            <% if (request.getAttribute("mailError") != null) { %>
+                            <span style="color: red;">Cet email est deja associé à un client</span>
+                            <% } %>
+                            <% if (request.getAttribute("nameError") != null) { %>
+                            <span style="color: red;">Le nom et le prenom doivent faire au moin 3 caractères</span>
+                            <% } %>
+
                             <!-- /.box-body -->
                             <div class="box-footer">
                                 <button type="submit" class="btn btn-info pull-right">Ajouter</button>
                             </div>
+                            <label>
+                                <input type="hidden" name="from_rents_create" value="${param.from_rents_create}">
+                            </label>
                             <!-- /.box-footer -->
                         </form>
                     </div>

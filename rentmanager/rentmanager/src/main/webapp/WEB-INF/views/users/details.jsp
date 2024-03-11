@@ -1,7 +1,7 @@
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
-<%@include file="/WEB-INF/views/common/head.jsp"%>
+<%@include file="/WEB-INF/views/common/head.jsp" %>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 
@@ -20,7 +20,7 @@
                     <!-- Profile Image -->
                     <div class="box box-primary">
                         <div class="box-body box-profile">
-                            <h3 class="profile-username text-center" >${client.nom} ${client.prenom}
+                            <h3 class="profile-username text-center">${client.nom} ${client.prenom}
                                 (${client.email})</h3>
 
                             <ul class="list-group list-group-unbordered">
@@ -59,6 +59,19 @@
                                                 <td>${resa.vehicleName}</td>
                                                 <td>${resa.debut}</td>
                                                 <td>${resa.fin}</td>
+                                                <td>
+                                                    <form method="post">
+                                                        <a class="btn btn-success disabled" href="#">
+                                                            <i class="fa fa-edit"></i>
+                                                        </a>
+                                                        <input type="hidden" name="reservationId"
+                                                               value="${resa.ID_reservation}">
+                                                        <button name="action" value="delete_reservation" type="submit"
+                                                                class="btn btn-danger">
+                                                            <i class="fa fa-trash"></i>
+                                                        </button>
+                                                    </form>
+                                                </td>
                                             </tr>
                                         </c:forEach>
                                     </table>
@@ -81,6 +94,22 @@
                                                 <td>${vehicle.constructeur}</td>
                                                 <td>${vehicle.model}</td>
                                                 <td>${vehicle.nb_place}</td>
+                                                <td>
+                                                    <form method="post">
+                                                        <a class="btn btn-success disabled" href="#">
+                                                            <i class="fa fa-edit"></i>
+                                                        </a>
+                                                        <input type="hidden" name="vehicleId"
+                                                               value="${vehicle.ID_vehicle}">
+                                                        <input type="hidden" name="constructeur"
+                                                               value="${vehicle.constructeur}">
+                                                        <input type="hidden" name="model" value="${vehicle.model}">
+                                                        <button type="submit" name="action" value="delete_vehicle"
+                                                                class="btn btn-danger">
+                                                            <i class="fa fa-trash"></i>
+                                                        </button>
+                                                    </form>
+                                                </td>
                                             </tr>
                                         </c:forEach>
                                     </table>

@@ -10,7 +10,7 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/bower_components/font-awesome/css/font-awesome.min.css">
     <!-- Ionicons -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/bower_components/Ionicons/css/ionicons.min.css">
+    <!--  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/bower_components/Ionicons/css/ionicons.min.css">-->
     <!-- Theme style -->
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/AdminLTE.min.css">
     <!-- AdminLTE Skins. Choose a skin from the css/skins

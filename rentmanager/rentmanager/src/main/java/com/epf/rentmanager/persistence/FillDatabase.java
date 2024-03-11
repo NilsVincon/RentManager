@@ -82,8 +82,6 @@ public class FillDatabase {
             stmt.execute("INSERT INTO Client(nom, prenom, email, naissance) VALUES('Lefevre', 'François', 'francois.lefevre@email.com', '1978-10-02')");
             stmt.execute("INSERT INTO Client(nom, prenom, email, naissance) VALUES('Mercier', 'Carole', 'carole.mercier@email.com', '1976-05-31')");
             stmt.execute("INSERT INTO Client(nom, prenom, email, naissance) VALUES('Dupuis', 'Thomas', 'thomas.dupuis@email.com', '1982-08-15')");
-
-
             connection.commit();
             System.out.println("Success!");
         } catch (SQLException e) {

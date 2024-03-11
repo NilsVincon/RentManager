@@ -1,4 +1,5 @@
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+<%@ page pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
 <%@include file="/WEB-INF/views/common/head.jsp"%>
@@ -73,6 +74,9 @@
                             </label>
                             <!-- /.box-footer -->
                         </form>
+                        <% if (request.getAttribute("nbplaceError") != null) { %>
+                        <span style="color: red;">*Le nombre de place doit être compris en 2 et 9</span>
+                        <% } %>
                     </div>
                     <!-- /.box -->
                 </div>

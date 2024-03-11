@@ -1,9 +1,11 @@
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ page pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
 <head>
     <title>Votre titre</title>
-    <%@include file="/WEB-INF/views/common/head.jsp"%>
+    <%@include file="/WEB-INF/views/common/head.jsp" %>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -30,9 +32,9 @@
                                             <c:forEach items="${rentsvehicles}" var="car" varStatus="loop">
                                                 <option value="${car.ID_vehicle}">${car.constructeur} ${car.model}</option>
                                             </c:forEach>
-                                            <option>
                                         </select>
-                                        <a class="btn btn-primary" href="${pageContext.request.contextPath}/vehicles/create?from_rents_create=${true}">
+                                        <a class="btn btn-primary"
+                                           href="${pageContext.request.contextPath}/vehicles/create?from_rents_create=${true}">
                                             Ajouter un vehicule
                                         </a>
                                     </div>
@@ -42,25 +44,39 @@
                                     <div class="col-sm-10">
                                         <select class="form-control" id="client" name="client">
                                             <c:forEach items="${rentsusers}" var="user" varStatus="loop">
-                                                <option value="${user.ID_client}">${user.nom} ${user.prenom}</option>
+                                                <option value="${user.ID_client}">${fn:toUpperCase(user.nom)} ${user.prenom}</option>
                                             </c:forEach>
                                         </select>
-
+                                        <a class="btn btn-primary"
+                                           href="${pageContext.request.contextPath}/users/create?from_rents_create=${true}">
+                                            Ajouter un client
+                                        </a>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="debut" class="col-sm-2 control-label">Date de debut</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="debut" name="debut" required data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
+                                        <input type="text" class="form-control" id="debut" name="debut" required
+                                               data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="fin" class="col-sm-2 control-label">Date de fin</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="fin" name="fin" required data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
+                                        <input type="text" class="form-control" id="fin" name="fin" required
+                                               data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
                                     </div>
                                 </div>
                             </div>
+                            <% if (request.getAttribute("dateError") != null) { %>
+                            <span style="color: red;">une voiture ne peux pas être réservé plus de 7 jours de suite par le même utilisateur</span>
+                            <% } %>
+                            <% if (request.getAttribute("datefinError") != null) { %>
+                            <span style="color: red;">La fin de la réservation ne peut pas être avant le début</span>
+                            <% } %>
+                            <% if (request.getAttribute("periodError") != null) { %>
+                            <span style="color: red;">La voiture sélectionné est déjà utlisé sur cette periode</span>
+                            <% } %>
                             <div class="box-footer">
                                 <button type="submit" class="btn btn-info pull-right">Ajouter</button>
                             </div>
@@ -80,22 +96,33 @@
 <script>
     function selectNewVehicle() {
         var newVehicleName = document.getElementById("new_Vehicle_name").value;
-
         if (newVehicleName !== "") {
             var vehicleSelect = document.getElementById('vehicle');
             var options = vehicleSelect.options;
-            var lastOption = options[options.length - 2];
+            var lastOption = options[options.length - 1];
+            lastOption.selected = true;
+        }
+    }
+
+    function selectNewClient() {
+        var newClientname = document.getElementById("new_Client_name").value;
+        if (newClientname !== "") {
+            var clientselect = document.getElementById('client');
+            var options = clientselect.options;
+            var lastOption = options[options.length - 1];
             lastOption.selected = true;
         }
     }
 
     $(function () {
-        selectNewVehicle(); // Assurez-vous que la fonction est appelée lors du chargement de la page
+        selectNewVehicle();
+        selectNewClient();
         $('[data-mask]').inputmask();
     });
 </script>
 <label>
     <input type='hidden' id="new_Vehicle_name" value="${param.newVehicle_name}">
+    <input type='text' id="new_Client_name" value="${param.newClient_name}">
 </label>
 </body>
 </html>
