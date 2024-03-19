@@ -45,7 +45,8 @@
                                         <td>${vehicle.nb_place}</td>
                                         <td>
                                             <form id="deleteForm_${loop.index}" method="post">
-                                                <a class="btn btn-success " href="${pageContext.request.contextPath}/vehicles/update?id_vehicle=${vehicle.ID_vehicle}">
+                                                <a class="btn btn-success "
+                                                   href="${pageContext.request.contextPath}/vehicles/update?id_vehicle=${vehicle.ID_vehicle}">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
                                                 <input type="hidden" name="vehicleId" value="${vehicle.ID_vehicle}">

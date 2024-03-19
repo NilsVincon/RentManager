@@ -30,7 +30,8 @@
                                     <div class="col-sm-10">
                                         <select class="form-control" id="vehicle" name="vehicle">
                                             <c:forEach items="${rentsvehicles}" var="car">
-                                                <option value="${car.ID_vehicle}" <c:if test="${car.ID_vehicle eq newResa.ID_vehicle}">selected</c:if>>${car.constructeur} ${car.model}</option>
+                                                <option value="${car.ID_vehicle}"
+                                                        <c:if test="${car.ID_vehicle eq newResa.ID_vehicle}">selected</c:if>>${car.constructeur} ${car.model}</option>
                                             </c:forEach>
                                         </select>
                                     </div>

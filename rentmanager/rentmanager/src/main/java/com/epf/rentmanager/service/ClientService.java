@@ -64,11 +64,12 @@ public class ClientService {
 			throw new ServiceException("Erreur lors du comptage des clients.");
 		}
 	}
-	public void update(Client newClient) throws ServiceException{
+
+	public void update(Client newClient) throws ServiceException {
 		try {
-			 clientDao.update(newClient);
-		}catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
+			clientDao.update(newClient);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
 }

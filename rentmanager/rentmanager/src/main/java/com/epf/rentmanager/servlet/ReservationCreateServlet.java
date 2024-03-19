@@ -50,8 +50,17 @@ public class ReservationCreateServlet extends HttpServlet {
             if ("true".equals(vehicleCreated)) {
                 request.setAttribute("newVehicleCreated", true);
             }
-        }
-        catch (Exception e) {
+            String id_client = request.getParameter("id_client");
+            request.setAttribute("id_client", id_client);
+            String id_vehicle = request.getParameter("id_vehicle");
+            request.setAttribute("id_vehicle", id_vehicle);
+            String dateError = request.getParameter("dateError");
+            request.setAttribute("dateError", dateError);
+            String datefinError = request.getParameter("datefinError");
+            request.setAttribute("datefinError", datefinError);
+            String periodError = request.getParameter("periodError");
+            request.setAttribute("periodError", periodError);
+        } catch (Exception e) {
             e.printStackTrace();
         }
         this.getServletContext().getRequestDispatcher("/WEB-INF/views/rents/create.jsp").forward(request, response);
@@ -60,43 +69,39 @@ public class ReservationCreateServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int ID_Client = Integer.parseInt((request.getParameter("client")));
         int ID_Vehicle = Integer.parseInt((request.getParameter("vehicle")));
-        System.out.println("client : "+ID_Client);
-        System.out.println("vehicle : "+ID_Vehicle);
+        System.out.println("client : " + ID_Client);
+        System.out.println("vehicle : " + ID_Vehicle);
         LocalDate debut = null;
         LocalDate fin = null;
         String debutParam = request.getParameter("debut");
         String finParam = request.getParameter("fin");
         if (debutParam != null && finParam != null) {
-            debut = LocalDate.parse(debutParam, DateTimeFormatter.ofPattern("dd/MM/yyyy"));;
-            fin =   LocalDate.parse(finParam, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            debut = LocalDate.parse(debutParam, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            ;
+            fin = LocalDate.parse(finParam, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
             //VERIFICATION DATE 7 JOURS MAX
             if (debut.plusDays(7).isBefore(fin)) {
-                request.setAttribute("dateError", true);
-                doGet(request, response);
+                response.sendRedirect(request.getContextPath() + "/rents/create?id_client=" + ID_Client + "&id_vehicle=" + ID_Vehicle + "&dateError=true");
                 return;
             }
             //VERIFICATION DEBUT AVANT FIN
             if (fin.isBefore(debut)) {
-                request.setAttribute("datefinError", true);
-                doGet(request, response);
+                response.sendRedirect(request.getContextPath() + "/rents/update?id_client=" + ID_Client + "&id_vehicle=" + ID_Vehicle + "&datefinError=true");
                 return;
             }
         }
-        List<Reservation> reservations= null;
+        List<Reservation> reservations = null;
         try {
             reservations = reservationService.findResaByVehicleId(ID_Vehicle);
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
         for (Reservation reservation : reservations) {
-            if (((debut.isAfter(reservation.getDebut()) || debut.isEqual(reservation.getDebut())) && debut.isBefore(reservation.getFin()) || debut.isEqual(reservation.getFin()))||((fin.isAfter(reservation.getDebut()) || fin.isEqual(reservation.getDebut())) && fin.isBefore(reservation.getFin()) || fin.isEqual(reservation.getFin())))
-                  {
-                request.setAttribute("periodError", true);
-                doGet(request, response);
+            if (((debut.isAfter(reservation.getDebut()) || debut.isEqual(reservation.getDebut())) && debut.isBefore(reservation.getFin()) || debut.isEqual(reservation.getFin())) || ((fin.isAfter(reservation.getDebut()) || fin.isEqual(reservation.getDebut())) && fin.isBefore(reservation.getFin()) || fin.isEqual(reservation.getFin()))) {
+                response.sendRedirect(request.getContextPath() + "/rents/update?id_client=" + ID_Client + "&id_vehicle=" + ID_Vehicle + "&periodError=true");
                 return;
             }
         }
-
 
 
         System.out.println(debutParam);

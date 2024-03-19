@@ -77,9 +77,12 @@ public class ReservationUpdateServlet extends HttpServlet {
         LocalDate fin = null;
         String debutParam = request.getParameter("debut");
         String finParam = request.getParameter("fin");
+        System.out.println("debut1 :"+debutParam);
+        System.out.println("fin1 :"+finParam);
         if (debutParam != null && finParam != null) {
             debut = LocalDate.parse(debutParam, DateTimeFormatter.ofPattern("dd/MM/yyyy"));;
             fin =   LocalDate.parse(finParam, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            System.out.println("fin1/2 :"+fin);
             //VERIFICATION DATE 7 JOURS MAX
             if (debut.plusDays(7).isBefore(fin)) {
                 response.sendRedirect(request.getContextPath() + "/rents/update?id_reservation=" + ID_Resa + "&dateError=true");
@@ -111,6 +114,8 @@ public class ReservationUpdateServlet extends HttpServlet {
                 return;
             }
         }
+        System.out.println("debut2 :"+debut);
+        System.out.println("fin2 :"+fin);
 
         Reservation newResa = new Reservation();
         newResa.setID_reservation(ID_Resa);

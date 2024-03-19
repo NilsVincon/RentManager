@@ -7,6 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import com.epf.rentmanager.models.Vehicle;
 import com.epf.rentmanager.service.VehicleService;
 import com.epf.rentmanager.exception.ServiceException;
@@ -36,10 +37,11 @@ public class VehicleCreateServlet extends HttpServlet {
         request.setAttribute("modelencours", modelencours);
         request.getRequestDispatcher("/WEB-INF/views/vehicles/create.jsp").forward(request, response);
     }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String constructeur = request.getParameter("constructeur");
         String from_rents_create = (request.getParameter("from_rents_create"));
-        System.out.println("fromVehicleCreate : "+from_rents_create);
+        System.out.println("fromVehicleCreate : " + from_rents_create);
         String model = request.getParameter("model");
         int nb_places = Integer.parseInt(request.getParameter("nb_places"));
         System.out.println(constructeur);
@@ -50,14 +52,14 @@ public class VehicleCreateServlet extends HttpServlet {
         newVehicle.setModel(model);
         newVehicle.setNb_place(nb_places);
         //VERIFICATION NOMBRE PLACE ENTRE 2 ET 9
-        if ((nb_places<2)||(nb_places>9)){
-            response.sendRedirect(request.getContextPath() + "/vehicles/create?constructeur=" + constructeur + "&model="+model+"&nbplaceError=true");
+        if ((nb_places < 2) || (nb_places > 9)) {
+            response.sendRedirect(request.getContextPath() + "/vehicles/create?constructeur=" + constructeur + "&model=" + model + "&nbplaceError=true");
             return;
         }
 
         try {
             vehicleService.create(newVehicle);
-            if ( from_rents_create!= null && Objects.equals(from_rents_create, "true")) {
+            if (from_rents_create != null && Objects.equals(from_rents_create, "true")) {
                 response.sendRedirect(request.getContextPath() + "/rents/create?newVehicle_name=true");
             } else {
                 response.sendRedirect(request.getContextPath() + "/vehicles/list");

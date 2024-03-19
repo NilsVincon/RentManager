@@ -61,7 +61,8 @@
                                                 <td>${resa.fin}</td>
                                                 <td>
                                                     <form method="post">
-                                                        <a class="btn btn-success disabled" href="#">
+                                                        <a class="btn btn-success "
+                                                           href="${pageContext.request.contextPath}/rents/update?id_reservation=${resa.ID_reservation}">
                                                             <i class="fa fa-edit"></i>
                                                         </a>
                                                         <input type="hidden" name="reservationId"
@@ -96,7 +97,8 @@
                                                 <td>${vehicle.nb_place}</td>
                                                 <td>
                                                     <form method="post">
-                                                        <a class="btn btn-success disabled" href="#">
+                                                        <a class="btn btn-success "
+                                                           href="${pageContext.request.contextPath}/vehicles/update?id_vehicle=${vehicle.ID_vehicle}">
                                                             <i class="fa fa-edit"></i>
                                                         </a>
                                                         <input type="hidden" name="vehicleId"

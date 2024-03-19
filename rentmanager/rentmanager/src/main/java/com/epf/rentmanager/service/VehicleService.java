@@ -71,10 +71,10 @@ public class VehicleService {
 		}
 	}
 
-	public void update(Vehicle newVehicle) throws ServiceException{
+	public void update(Vehicle newVehicle) throws ServiceException {
 		try {
 			vehicleDao.update(newVehicle);
-		}catch (SQLException e) {
+		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}

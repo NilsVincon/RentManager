@@ -43,12 +43,13 @@ public class ClientUpdateServlet extends HttpServlet {
         request.setAttribute("ageError", ageError);
         try {
             Client client = clientService.findById(ID_Client);
-            request.setAttribute("client",client);
+            request.setAttribute("client", client);
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
         request.getRequestDispatcher("/WEB-INF/views/users/update.jsp").forward(request, response);
     }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String nom = request.getParameter("last_name");
         String prenom = request.getParameter("first_name");
@@ -86,16 +87,17 @@ public class ClientUpdateServlet extends HttpServlet {
 
             // Filtrer les clients ayant le même e-mail que celui fourni dans la variable 'mail'
             clients = clients.stream()
-                    .filter(client -> client.getEmail().equals(mail))
+                    .filter(client -> client.getID_client() != ID_Client)
                     .collect(Collectors.toList());
 
             System.out.println("clients2: " + clients);
 
             // Vérifier s'il y a des clients filtrés (c'est-à-dire s'il y a des clients avec le même e-mail)
-            if (!clients.isEmpty()) {
-                // Si un client avec le même e-mail existe déjà, effectuez la redirection
-                response.sendRedirect(request.getContextPath() + "/users/create?nom=" + nom + "&prenom=" + prenom + "&naissance=" + datenaissance + "&mailError=true");
-                return;
+            for (Client client : clients) {
+                if (Objects.equals(client.getEmail(), mail)) {
+                    response.sendRedirect(request.getContextPath() + "/users/create?nom=" + nom + "&prenom=" + prenom + "&naissance=" + datenaissance + "&mailError=true");
+                    return;
+                }
             }
         } catch (ServiceException e) {
             throw new RuntimeException(e);

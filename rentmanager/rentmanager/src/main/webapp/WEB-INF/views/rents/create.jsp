@@ -29,8 +29,9 @@
                                     <label for="vehicle" class="col-sm-2 control-label">Voiture</label>
                                     <div class="col-sm-10">
                                         <select class="form-control" id="vehicle" name="vehicle">
-                                            <c:forEach items="${rentsvehicles}" var="car" varStatus="loop">
-                                                <option value="${car.ID_vehicle}">${car.constructeur} ${car.model}</option>
+                                            <c:forEach items="${rentsvehicles}" var="car">
+                                                <option value="${car.ID_vehicle}"
+                                                        <c:if test="${car.ID_vehicle eq id_vehicle}">selected</c:if>>${car.constructeur} ${car.model}</option>
                                             </c:forEach>
                                         </select>
                                         <a class="btn btn-primary"
@@ -43,8 +44,9 @@
                                     <label for="client" class="col-sm-2 control-label">Client</label>
                                     <div class="col-sm-10">
                                         <select class="form-control" id="client" name="client">
-                                            <c:forEach items="${rentsusers}" var="user" varStatus="loop">
-                                                <option value="${user.ID_client}">${fn:toUpperCase(user.nom)} ${user.prenom}</option>
+                                            <c:forEach items="${rentsusers}" var="user">
+                                                <option value="${user.ID_client}"
+                                                        <c:if test="${user.ID_client eq id_client}">selected</c:if>>${fn:toUpperCase(user.nom)} ${user.prenom}</option>
                                             </c:forEach>
                                         </select>
                                         <a class="btn btn-primary"

@@ -46,7 +46,7 @@ public class ReservationService {
         }
     }
 
-    public List<Reservation>  findResaByClientId(int id) throws ServiceException {
+    public List<Reservation> findResaByClientId(int id) throws ServiceException {
         try {
             return reservationDao.findResaByClientId(id);
         } catch (DaoException e) {
@@ -54,7 +54,7 @@ public class ReservationService {
         }
     }
 
-    public List<Reservation>  findResaByVehicleId(int id) throws ServiceException {
+    public List<Reservation> findResaByVehicleId(int id) throws ServiceException {
         try {
             return reservationDao.findResaByVehicleId(id);
         } catch (DaoException e) {
@@ -78,10 +78,10 @@ public class ReservationService {
         }
     }
 
-    public void update(Reservation newResa) throws ServiceException{
+    public void update(Reservation newResa) throws ServiceException {
         try {
             reservationDao.update(newResa);
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }

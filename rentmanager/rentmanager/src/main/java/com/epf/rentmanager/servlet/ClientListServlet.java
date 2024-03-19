@@ -57,10 +57,9 @@ public class ClientListServlet extends HttpServlet {
                     response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Une erreur s'est produite lors de la suppression du véhicule.");
                     throw new RuntimeException(e);
                 }
-            }
-            else {
+            } else {
                 System.out.println("false");
-                doGet(request,response);
+                doGet(request, response);
             }
         }
         if (Objects.equals(action, "modif_client")) {
@@ -68,7 +67,7 @@ public class ClientListServlet extends HttpServlet {
 
         }
         if (Objects.equals(action, "dont_delete_client")) {
-            doGet(request,response);
+            doGet(request, response);
         }
 
 

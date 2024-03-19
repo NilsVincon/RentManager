@@ -1,8 +1,8 @@
-<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="fr">
-<%@include file="/WEB-INF/views/common/head.jsp"%>
+<%@include file="/WEB-INF/views/common/head.jsp" %>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 
@@ -30,26 +30,30 @@
                         <!-- est d�crit an l'attribut "method" de la balise forme -->
                         <!-- action indique � quel "cible" sera envoyr la requ�te, ici notre Servlet qui sera bind sur -->
                         <!-- /vehicles/create -->
-                        <form class="form-horizontal" method="post" action="${pageContext.request.contextPath}/vehicles/create">
-                        <div class="box-body">
+                        <form class="form-horizontal" method="post"
+                              action="${pageContext.request.contextPath}/vehicles/create">
+                            <div class="box-body">
                                 <div class="form-group">
                                     <label for="constructeur" class="col-sm-2 control-label">Marque</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="constructeur" name="constructeur" value="${constructeurencours}" placeholder="Marque" required>
+                                        <input type="text" class="form-control" id="constructeur" name="constructeur"
+                                               value="${constructeurencours}" placeholder="Marque" required>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="model" class="col-sm-2 control-label">Model</label>
 
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="model" name="model" placeholder="Modele" value="${modelencours}" required>
+                                        <input type="text" class="form-control" id="model" name="model"
+                                               placeholder="Modele" value="${modelencours}" required>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="nb_places" class="col-sm-2 control-label">Nombre de places</label>
 
                                     <div class="col-sm-10">
-                                        <input type="number" class="form-control" id="nb_places" name="nb_places" placeholder="Nombre de places" required>
+                                        <input type="number" class="form-control" id="nb_places" name="nb_places"
+                                               placeholder="Nombre de places" required>
                                     </div>
                                 </div>
                                 <!--

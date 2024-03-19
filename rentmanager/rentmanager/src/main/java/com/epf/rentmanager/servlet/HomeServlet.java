@@ -26,7 +26,7 @@ public class HomeServlet extends HttpServlet {
     @Autowired
     private ReservationService reservationService;
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     @Override
     public void init() throws ServletException {
@@ -35,9 +35,8 @@ public class HomeServlet extends HttpServlet {
     }
 
 
-
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         int vehicleCount = 0;
         int clientCount = 0;
         int reservationCount = 0;
@@ -51,8 +50,8 @@ public class HomeServlet extends HttpServlet {
         request.setAttribute("vehicleCount", vehicleCount);
         request.setAttribute("clientCount", clientCount);
         request.setAttribute("reservationCount", reservationCount);
-		this.getServletContext().getRequestDispatcher("/WEB-INF/views/home.jsp").forward(request, response);
-		//this.getServletContext().getRequestDispatcher("/WEB-INF/views/home.jsp").forward(request, response);
-	}
+        this.getServletContext().getRequestDispatcher("/WEB-INF/views/home.jsp").forward(request, response);
+        //this.getServletContext().getRequestDispatcher("/WEB-INF/views/home.jsp").forward(request, response);
+    }
 
 }

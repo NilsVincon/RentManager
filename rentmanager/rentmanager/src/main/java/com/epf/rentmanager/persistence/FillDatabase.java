@@ -21,7 +21,7 @@ public class FillDatabase {
         }
     }
 
-	private static void insertWithPreparedStatement() throws SQLException {
+    private static void insertWithPreparedStatement() throws SQLException {
         Connection connection = ConnectionManager.getConnection();
         PreparedStatement createPreparedStatement = null;
 
@@ -34,9 +34,9 @@ public class FillDatabase {
             connection.setAutoCommit(false);
 
             for (String createQuery : createTablesQueries) {
-            	createPreparedStatement = connection.prepareStatement(createQuery);
-	            createPreparedStatement.executeUpdate();
-	            createPreparedStatement.close();
+                createPreparedStatement = connection.prepareStatement(createQuery);
+                createPreparedStatement.executeUpdate();
+                createPreparedStatement.close();
             }
 
             // Remplissage de la base avec des Vehicules et des Clients

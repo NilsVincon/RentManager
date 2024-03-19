@@ -46,23 +46,23 @@ public class ReservationListServlet extends HttpServlet {
             for (Reservation reservation : rents) {
                 Vehicle vehicle = vehicleService.findById(reservation.getID_vehicle());
                 Client client = clientService.findById(reservation.getID_client());
-                reservation.setClientName(client.getNom(),client.getPrenom());
-                reservation.setVehicleName(vehicle.getConstructeur(),vehicle.getModel());
+                reservation.setClientName(client.getNom(), client.getPrenom());
+                reservation.setVehicleName(vehicle.getConstructeur(), vehicle.getModel());
             }
-            System.out.println("resa"+rents);
+            System.out.println("resa" + rents);
             request.setAttribute("rents", rents);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         this.getServletContext().getRequestDispatcher("/WEB-INF/views/rents/list.jsp").forward(request, response);
     }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int reservationId = Integer.parseInt(request.getParameter("reservationId"));
         try {
             reservationService.delete(reservationService.findResaById(reservationId));
-            System.out.println("resa"+reservationId+"supprimé!");
-            request.setAttribute("successMessage", "La suppression de la reservatopn : "+reservationId+" a été effectuée avec succès !");
+            System.out.println("resa" + reservationId + "supprimé!");
+            request.setAttribute("successMessage", "La suppression de la reservatopn : " + reservationId + " a été effectuée avec succès !");
             response.sendRedirect(request.getContextPath() + "/rents/list");
         } catch (ServiceException e) {
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Une erreur s'est produite lors de la suppression de la reservation.");

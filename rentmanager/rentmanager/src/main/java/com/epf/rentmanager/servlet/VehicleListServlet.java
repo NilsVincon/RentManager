@@ -69,10 +69,9 @@ public class VehicleListServlet extends HttpServlet {
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Une erreur s'est produite lors de la suppression du véhicule.");
                 throw new RuntimeException(e);
             }
-        }
-        else {
+        } else {
             System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-            doGet(request,response);
+            doGet(request, response);
         }
     }
 }

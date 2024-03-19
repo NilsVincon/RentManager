@@ -35,7 +35,8 @@
                                     <label for="last_name" class="col-sm-2 control-label">Nom</label>
 
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="last_name" name="last_name" value="${nom}" required
+                                        <input type="text" class="form-control" id="last_name" name="last_name"
+                                               value="${nom}" required
                                                placeholder="Nom">
                                     </div>
                                 </div>
@@ -53,7 +54,8 @@
                                     <label for="email" class="col-sm-2 control-label">Email</label>
 
                                     <div class="col-sm-10">
-                                        <input type="email" class="form-control" id="email" name="email" value="${mail}"required
+                                        <input type="email" class="form-control" id="email" name="email" value="${mail}"
+                                               required
                                                placeholder="Email">
                                     </div>
                                 </div>
@@ -61,9 +63,9 @@
                                     <label for="naissance" class="col-sm-2 control-label">Naissance</label>
                                     <div class="col-sm-10">
                                         <%-- Utilisez DateTimeFormatter pour formater la date --%>
-                                            <input type="text" class="form-control" id="naissance" name="naissance"
-                                                   value="<%= request.getAttribute("naissance") != null ? ((LocalDate)request.getAttribute("naissance")).format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : "" %>"
-                                                   required data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
+                                        <input type="text" class="form-control" id="naissance" name="naissance"
+                                               value="<%= request.getAttribute("naissance") != null ? ((LocalDate)request.getAttribute("naissance")).format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : "" %>"
+                                               required data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
                                     </div>
                                 </div>
                             </div>
