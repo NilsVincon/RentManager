@@ -19,9 +19,10 @@ import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
-@WebServlet("/users/create")
-public class ClientCreateServlet extends HttpServlet {
+@WebServlet("/users/update")
+public class ClientUpdateServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     @Autowired
@@ -35,43 +36,25 @@ public class ClientCreateServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String mailError = request.getParameter("mailError");
-        request.setAttribute("mailError", mailError);
-        String ageError = request.getParameter("ageError");
-        request.setAttribute("ageError", ageError);
+        int ID_Client = Integer.parseInt(request.getParameter("client_id"));
         String nameError = request.getParameter("nameError");
+        String ageError = request.getParameter("ageError");
         request.setAttribute("nameError", nameError);
-        String nom = request.getParameter("nom");
-        request.setAttribute("nom", nom);
-        String prenom = request.getParameter("prenom");
-        request.setAttribute("prenom", prenom);
-        String mail = request.getParameter("mail");
-        request.setAttribute("mail", mail);
-        LocalDate naissance = null;
-        String naissanceParam = request.getParameter("naissance");
-        System.out.println(naissanceParam);
-        if (naissanceParam != null && !naissanceParam.isEmpty()) {
-            try {
-                // Conversion de la chaîne de caractères en LocalDate
-                naissance = LocalDate.parse(naissanceParam);
-            } catch (DateTimeParseException e) {
-                // Gestion de l'erreur : affichage dans la console et ajout d'un message d'erreur à afficher à l'utilisateur
-                e.printStackTrace();
-                request.setAttribute("naissanceError", "Format de date invalide. Utilisez le format AAAA-MM-JJ.");
-            }
+        request.setAttribute("ageError", ageError);
+        try {
+            Client client = clientService.findById(ID_Client);
+            request.setAttribute("client",client);
+        } catch (ServiceException e) {
+            throw new RuntimeException(e);
         }
-        System.out.println(naissance);
-        // Ajout de la date de naissance à l'attribut de la requête
-        request.setAttribute("naissance", naissance);
-
-        request.getRequestDispatcher("/WEB-INF/views/users/create.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/views/users/update.jsp").forward(request, response);
     }
-
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String nom = request.getParameter("last_name");
         String prenom = request.getParameter("first_name");
         String mail = request.getParameter("email");
         String naissance = request.getParameter("naissance");
+        int ID_Client = Integer.parseInt(request.getParameter("id_client"));
         LocalDate datenaissance = null;
         if (naissance != null && !naissance.isEmpty()) {
             try {
@@ -83,7 +66,7 @@ public class ClientCreateServlet extends HttpServlet {
         //VERIFICATION NOM ET PRENOM
 
         if (nom.length() < 3 || prenom.length() < 3) {
-            response.sendRedirect(request.getContextPath() + "/users/create?mail=" + mail + "&naissance=" + datenaissance + "&nameError=true");
+            response.sendRedirect(request.getContextPath() + "/users/update?client_id=" + ID_Client + "&nameError=true");
             return;
         }
 
@@ -92,41 +75,47 @@ public class ClientCreateServlet extends HttpServlet {
         LocalDate dateactuelle = LocalDate.now();
         long age = ChronoUnit.YEARS.between(datenaissance, dateactuelle);
         if (age < 18) {
-            response.sendRedirect(request.getContextPath() + "/users/create?nom=" + nom + "&prenom=" + prenom + "&mail=" + mail + "&ageError=true");
+            response.sendRedirect(request.getContextPath() + "/users/update?client_id=" + ID_Client + "&ageError=true");
             return;
         }
-
         //VERFICATION MAIL
 
         try {
             List<Client> clients = clientService.findAll();
-            for (Client client : clients) {
-                if (client.getEmail().equals(mail)) {
-                    response.sendRedirect(request.getContextPath() + "/users/create?nom=" + nom + "&prenom=" + prenom + "&naissance=" + datenaissance + "&mailError=true");
-                    return;
-                }
+            System.out.println("clients1: " + clients);
+
+            // Filtrer les clients ayant le même e-mail que celui fourni dans la variable 'mail'
+            clients = clients.stream()
+                    .filter(client -> client.getEmail().equals(mail))
+                    .collect(Collectors.toList());
+
+            System.out.println("clients2: " + clients);
+
+            // Vérifier s'il y a des clients filtrés (c'est-à-dire s'il y a des clients avec le même e-mail)
+            if (!clients.isEmpty()) {
+                // Si un client avec le même e-mail existe déjà, effectuez la redirection
+                response.sendRedirect(request.getContextPath() + "/users/create?nom=" + nom + "&prenom=" + prenom + "&naissance=" + datenaissance + "&mailError=true");
+                return;
             }
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
 
+
         Client newClient = new Client();
+        newClient.setID_client(ID_Client);
         newClient.setNom(nom);
         newClient.setPrenom(prenom);
         newClient.setEmail(mail);
         newClient.setNaissance(datenaissance);
-        String from_rents_create = (request.getParameter("from_rents_create"));
 
         try {
-            clientService.create(newClient);
-            if (from_rents_create != null && Objects.equals(from_rents_create, "true")) {
-                response.sendRedirect(request.getContextPath() + "/rents/create?newClient_name=true");
-            } else {
-                response.sendRedirect(request.getContextPath() + "/users/list");
-            }
+            clientService.update(newClient);
+            response.sendRedirect(request.getContextPath() + "/users/list");
+
         } catch (ServiceException e) {
             e.printStackTrace();
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Une erreur s'est produite lors de la création du véhicule.");
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Une erreur s'est produite lors de la modification du client.");
         }
     }
 

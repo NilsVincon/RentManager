@@ -49,7 +49,7 @@ public class ReservationListServlet extends HttpServlet {
                 reservation.setClientName(client.getNom(),client.getPrenom());
                 reservation.setVehicleName(vehicle.getConstructeur(),vehicle.getModel());
             }
-            System.out.println(rents);
+            System.out.println("resa"+rents);
             request.setAttribute("rents", rents);
         }
         catch (Exception e) {

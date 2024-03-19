@@ -1,7 +1,4 @@
-<%@ page import="java.time.LocalDate" %>
-<%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="fr">
@@ -29,14 +26,14 @@
                     <!-- Horizontal Form -->
                     <div class="box">
                         <!-- form start -->
-                        <form class="form-horizontal" method="post" action="./create">
+                        <form class="form-horizontal" method="post" action="./update">
                             <div class="box-body">
                                 <div class="form-group">
                                     <label for="last_name" class="col-sm-2 control-label">Nom</label>
 
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="last_name" name="last_name" value="${nom}" required
-                                               placeholder="Nom">
+                                        <input type="text" class="form-control" id="last_name" name="last_name" required
+                                               placeholder="Nom" value="${client.nom}">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -44,26 +41,24 @@
 
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="first_name" name="first_name"
-                                               value="${prenom}"
                                                required
-                                               placeholder="Prenom">
+                                               placeholder="Prenom" value="${client.prenom}">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="email" class="col-sm-2 control-label">Email</label>
 
                                     <div class="col-sm-10">
-                                        <input type="email" class="form-control" id="email" name="email" value="${mail}"required
-                                               placeholder="Email">
+                                        <input type="email" class="form-control" id="email" name="email" required
+                                               placeholder="Email" value="${client.email}">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="naissance" class="col-sm-2 control-label">Naissance</label>
+
                                     <div class="col-sm-10">
-                                        <%-- Utilisez DateTimeFormatter pour formater la date --%>
-                                            <input type="text" class="form-control" id="naissance" name="naissance"
-                                                   value="<%= request.getAttribute("naissance") != null ? ((LocalDate)request.getAttribute("naissance")).format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : "" %>"
-                                                   required data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
+                                        <input type="text" class="form-control" id="naissance" name="naissance" required
+                                               data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
                                     </div>
                                 </div>
                             </div>
@@ -79,11 +74,10 @@
 
                             <!-- /.box-body -->
                             <div class="box-footer">
-                                <button type="submit" class="btn btn-info pull-right">Ajouter</button>
+                                <button type="submit" class="btn btn-info pull-right">Enregistrer les modifications
+                                </button>
                             </div>
-                            <label>
-                                <input type="hidden" name="from_rents_create" value="${param.from_rents_create}">
-                            </label>
+                            <input type="hidden" id="client_id" name="id_client" value="${param.client_id}">
                             <!-- /.box-footer -->
                         </form>
                     </div>
@@ -104,8 +98,10 @@
 <script src="${pageContext.request.contextPath}/resources/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
 <script src="${pageContext.request.contextPath}/resources/plugins/input-mask/jquery.inputmask.extensions.js"></script>
 <script>
-    $(function () {
-        $('[data-mask]').inputmask()
+    $(document).ready(function() {
+        var clientNaissance = new Date('${client.naissance}');
+        var formattedDate = clientNaissance.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        $('#naissance').val(formattedDate);
     });
 </script>
 </body>

@@ -1,5 +1,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ page pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="fr">
 <%@include file="/WEB-INF/views/common/head.jsp" %>
@@ -43,19 +44,21 @@
                                         <td>${user.email}</td>
                                         <td>${user.naissance}</td>
                                         <td>
-                                            <form method="post">
+                                            <form id="deleteForm_${loop.index}" method="post">
                                                 <a class="btn btn-primary"
                                                    href="${pageContext.request.contextPath}/users/details?client_id=${user.ID_client}">
                                                     <i class="fa fa-play"></i>
                                                 </a>
-                                                <button type="submit" name="action" value="modif_client" class="btn btn-success">
+                                                <a class="btn btn-success"
+                                                   href="${pageContext.request.contextPath}/users/update?client_id=${user.ID_client}">
                                                     <i class="fa fa-edit"></i>
-                                                </button>
-
+                                                </a>
                                                 <input type="hidden" name="clientID" value="${user.ID_client}">
                                                 <input type="hidden" name="nom" value="${user.nom}">
                                                 <input type="hidden" name="prenom" value="${user.prenom}">
-                                                <button type="submit" name="action" value="delete_client" class="btn btn-danger">
+                                                <input type="hidden" id="deleteornot" name="deleteornot" value="false">
+                                                <input type="hidden" name="action" value="">
+                                                <button type="button" class="btn btn-danger" onclick="afficherAlerte(${loop.index})" title="Supprimer">
                                                     <i class="fa fa-trash"></i>
                                                 </button>
                                             </form>
@@ -85,4 +88,19 @@
     </div>
 </c:if>
 </body>
+<script>
+    function afficherAlerte(index) {
+        var confirmation = confirm("La suppression de cette voiture va supprimer toutes les réservations associées.\nÊtes-vous sûr de vouloir continuer ?");
+        if (confirmation) {
+            document.getElementsByName("deleteornot")[index].value = "true";
+            document.getElementsByName("action")[index].value = "delete_client";
+            document.getElementById("deleteForm_" + index).submit();
+            alert("Action confirmée!");
+        } else {
+            document.getElementsByName("action")[index].value = "dont_delete_client";
+            document.getElementById("deleteForm_" + index).submit();
+            alert("Action annulée.");
+        }
+    }
+</script>
 </html>

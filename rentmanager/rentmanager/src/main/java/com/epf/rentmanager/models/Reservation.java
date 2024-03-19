@@ -10,7 +10,6 @@ public class Reservation {
     private LocalDate debut;
     private LocalDate fin;
     private String vehicleName;
-
     private String clientName;
     public Reservation(){}
 

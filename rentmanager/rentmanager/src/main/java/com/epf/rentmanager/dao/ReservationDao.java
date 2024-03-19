@@ -1,6 +1,7 @@
 package com.epf.rentmanager.dao;
 
 import com.epf.rentmanager.exception.DaoException;
+import com.epf.rentmanager.models.Client;
 import com.epf.rentmanager.models.Reservation;
 import com.epf.rentmanager.persistence.ConnectionManager;
 import org.springframework.stereotype.Repository;
@@ -22,6 +23,7 @@ public class ReservationDao {
 	private static final String FIND_RESERVATIONS_BY_VEHICLE_QUERY = "SELECT id, client_id, debut, fin FROM Reservation WHERE vehicle_id=?";
 	private static final String FIND_RESERVATIONS_QUERY = "SELECT id, client_id, vehicle_id, debut, fin FROM Reservation";
 	private static final String COUNT_RESERVATIONS_QUERY = "SELECT COUNT(*) AS total FROM Reservation";
+	private static final String UPDATE_RESERVATION_QUERY = "UPDATE Reservation SET client_id=?, vehicle_id=?, debut=?, fin=? WHERE id=?";
 
 	public long create(Reservation reservation) throws DaoException {
 		try (Connection connexion = ConnectionManager.getConnection();
@@ -105,7 +107,7 @@ public class ReservationDao {
 		return reservations;
 	}
 
-	public List<Reservation> findResaByVehicleId(long vehicleId) throws DaoException {
+	public List<Reservation> findResaByVehicleId(int vehicleId) throws DaoException {
 		List<Reservation> reservations = new ArrayList<>();
 		try (Connection connexion = ConnectionManager.getConnection();
 			 PreparedStatement preparedStatement = connexion.prepareStatement(FIND_RESERVATIONS_BY_VEHICLE_QUERY)) {
@@ -116,7 +118,7 @@ public class ReservationDao {
 				int client_id = resultSet.getInt("client_id");
 				LocalDate debut = resultSet.getDate("debut").toLocalDate();
 				LocalDate fin = resultSet.getDate("fin").toLocalDate();
-				reservations.add(new Reservation(id, client_id, debut, fin));
+				reservations.add(new Reservation(id, client_id,vehicleId, debut, fin));
 			}
 		} catch (SQLException e) {
 			throw new DaoException(e.getMessage(), e);
@@ -139,6 +141,7 @@ public class ReservationDao {
 				Date finDate = resultSet.getDate("fin");
 				if (debutDate != null) {
 					debut = debutDate.toLocalDate();
+					System.out.println("debut"+debut);
 				}
 				if (finDate != null) {
 					fin = finDate.toLocalDate();
@@ -162,5 +165,22 @@ public class ReservationDao {
 			throw new DaoException(e.getMessage(), e);
 		}
 		return 0;
+	}
+
+	public void update(Reservation newResa) throws SQLException {
+		Connection connexion = null;
+		try {
+			connexion = ConnectionManager.getConnection();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+		PreparedStatement preparedStatement = connexion.prepareStatement(UPDATE_RESERVATION_QUERY);
+		preparedStatement.setInt(1, newResa.getID_client());
+		preparedStatement.setInt(2, newResa.getID_vehicle());
+		preparedStatement.setDate(3, Date.valueOf(newResa.getDebut()));
+		System.out.println("debut"+newResa.getDebut());
+		preparedStatement.setDate(4, Date.valueOf(newResa.getFin()));
+		preparedStatement.setInt(5, newResa.getID_reservation());
+		preparedStatement.executeUpdate();
 	}
 }

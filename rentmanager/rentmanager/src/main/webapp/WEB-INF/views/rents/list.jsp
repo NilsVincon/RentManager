@@ -35,13 +35,14 @@
                                 <c:forEach items="${rents}" var="resa" varStatus="loop">
                                     <tr>
                                         <td>${resa.ID_reservation}</td>
-                                        <td>${resa.clientName}</td>
                                         <td>${resa.vehicleName}</td>
+                                        <td>${resa.clientName}</td>
                                         <td>${resa.debut}</td>
                                         <td>${resa.fin}</td>
                                         <td>
                                             <form method="post">
-                                                <a class="btn btn-success disabled" href="#">
+                                                <a class="btn btn-success "
+                                                   href="${pageContext.request.contextPath}/rents/update?id_reservation=${resa.ID_reservation}">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
                                                 <input type="hidden" name="reservationId"

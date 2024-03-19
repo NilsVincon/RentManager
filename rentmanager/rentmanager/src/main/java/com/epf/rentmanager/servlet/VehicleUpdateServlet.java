@@ -13,8 +13,8 @@ import com.epf.rentmanager.exception.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
-@WebServlet("/vehicles/create")
-public class VehicleCreateServlet extends HttpServlet {
+@WebServlet("/vehicles/update")
+public class VehicleUpdateServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     @Autowired
@@ -28,13 +28,17 @@ public class VehicleCreateServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        int ID_vehicle = Integer.parseInt(request.getParameter("id_vehicle"));
+        Vehicle vehicle = null;
         String nbplaceError = request.getParameter("nbplaceError");
         request.setAttribute("nbplaceError", nbplaceError);
-        String constructeurencours = request.getParameter("constructeur");
-        request.setAttribute("constructeurencours", constructeurencours);
-        String modelencours = request.getParameter("model");
-        request.setAttribute("modelencours", modelencours);
-        request.getRequestDispatcher("/WEB-INF/views/vehicles/create.jsp").forward(request, response);
+        try {
+            vehicle = vehicleService.findById(ID_vehicle);
+        } catch (ServiceException e) {
+            throw new RuntimeException(e);
+        }
+        request.setAttribute("vehicle",vehicle);
+        request.getRequestDispatcher("/WEB-INF/views/vehicles/update.jsp").forward(request, response);
     }
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String constructeur = request.getParameter("constructeur");
@@ -45,26 +49,25 @@ public class VehicleCreateServlet extends HttpServlet {
         System.out.println(constructeur);
         System.out.println(model);
         System.out.println(nb_places);
+        int ID_Vehicle = Integer.parseInt(request.getParameter("id_vehicle"));
         Vehicle newVehicle = new Vehicle();
+        newVehicle.setID_vehicle(ID_Vehicle);
         newVehicle.setConstructeur(constructeur);
         newVehicle.setModel(model);
         newVehicle.setNb_place(nb_places);
+
         //VERIFICATION NOMBRE PLACE ENTRE 2 ET 9
         if ((nb_places<2)||(nb_places>9)){
-            response.sendRedirect(request.getContextPath() + "/vehicles/create?constructeur=" + constructeur + "&model="+model+"&nbplaceError=true");
+            response.sendRedirect(request.getContextPath() + "/vehicles/update?id_vehicle=" + ID_Vehicle + "&nbplaceError=true");
             return;
         }
 
         try {
-            vehicleService.create(newVehicle);
-            if ( from_rents_create!= null && Objects.equals(from_rents_create, "true")) {
-                response.sendRedirect(request.getContextPath() + "/rents/create?newVehicle_name=true");
-            } else {
-                response.sendRedirect(request.getContextPath() + "/vehicles/list");
-            }
+            vehicleService.update(newVehicle);
+            response.sendRedirect(request.getContextPath() + "/vehicles/list");
         } catch (ServiceException e) {
             e.printStackTrace();
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Une erreur s'est produite lors de la création du véhicule.");
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Une erreur s'est produite lors de la modification du véhicule.");
         }
     }
 

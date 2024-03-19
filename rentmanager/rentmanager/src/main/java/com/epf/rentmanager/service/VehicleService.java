@@ -1,9 +1,11 @@
 package com.epf.rentmanager.service;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import com.epf.rentmanager.exception.DaoException;
 import com.epf.rentmanager.exception.ServiceException;
+import com.epf.rentmanager.models.Client;
 import com.epf.rentmanager.models.Vehicle;
 import com.epf.rentmanager.dao.VehicleDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +68,14 @@ public class VehicleService {
 			return vehicleDao.count();
 		} catch (DaoException e) {
 			throw new ServiceException("Erreur lors du comptage des véhicules.");
+		}
+	}
+
+	public void update(Vehicle newVehicle) throws ServiceException{
+		try {
+			vehicleDao.update(newVehicle);
+		}catch (SQLException e) {
+			throw new RuntimeException(e);
 		}
 	}
 }

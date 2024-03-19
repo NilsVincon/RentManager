@@ -1,6 +1,7 @@
 package com.epf.rentmanager.dao;
 
 import com.epf.rentmanager.exception.DaoException;
+import com.epf.rentmanager.models.Client;
 import com.epf.rentmanager.models.Vehicle;
 import com.epf.rentmanager.persistence.ConnectionManager;
 import org.springframework.stereotype.Repository;
@@ -19,6 +20,8 @@ public class VehicleDao {
 	private static final String FIND_VEHICLE_QUERY = "SELECT id, constructeur,model, nb_places FROM Vehicle WHERE id=?";
 	private static final String FIND_VEHICLES_QUERY = "SELECT id, constructeur,model, nb_places FROM Vehicle";
 	private static final String COUNT_VEHICLES_QUERY = "SELECT COUNT(*) AS total FROM Vehicle";
+	private static final String UPDATE_VEHICLE_QUERY = "UPDATE Vehicle SET constructeur=?, model=?, nb_places=? WHERE id=?";
+
 
 	public int create(Vehicle vehicle) throws DaoException {
 		try (Connection connexion = ConnectionManager.getConnection();
@@ -94,5 +97,20 @@ public class VehicleDao {
 			throw new DaoException(e.getMessage(), e);
 		}
 		return 0;
+	}
+
+	public void update(Vehicle newVehicle) throws SQLException {
+		Connection connexion = null;
+		try {
+			connexion = ConnectionManager.getConnection();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+		PreparedStatement preparedStatement = connexion.prepareStatement(UPDATE_VEHICLE_QUERY);
+		preparedStatement.setString(1, newVehicle.getConstructeur());
+		preparedStatement.setString(2, newVehicle.getModel());
+		preparedStatement.setInt(3, newVehicle.getNb_place());
+		preparedStatement.setInt(4, newVehicle.getID_vehicle());
+		preparedStatement.executeUpdate();
 	}
 }

@@ -9,8 +9,10 @@ D:\EPF-4A\Java\TP4\rentmanager\rentmanager\src\main\java\com\epf\rentmanager\ser
 D:\EPF-4A\Java\TP4\rentmanager\rentmanager\src\main\java\com\epf\rentmanager\configuration\AppConfiguration.java
 D:\EPF-4A\Java\TP4\rentmanager\rentmanager\src\main\java\com\epf\rentmanager\persistence\FillDatabase.java
 D:\EPF-4A\Java\TP4\rentmanager\rentmanager\src\main\java\com\epf\rentmanager\service\ClientService.java
+D:\EPF-4A\Java\TP4\rentmanager\rentmanager\src\main\java\com\epf\rentmanager\servlet\VehicleUpdateServlet.java
 D:\EPF-4A\Java\TP4\rentmanager\rentmanager\src\main\java\com\epf\rentmanager\ui\cli\Interface.java
 D:\EPF-4A\Java\TP4\rentmanager\rentmanager\src\main\java\com\epf\rentmanager\configuration\WebConfiguration.java
+D:\EPF-4A\Java\TP4\rentmanager\rentmanager\src\main\java\com\epf\rentmanager\servlet\ClientUpdateServlet.java
 D:\EPF-4A\Java\TP4\rentmanager\rentmanager\src\main\java\com\epf\rentmanager\models\Reservation.java
 D:\EPF-4A\Java\TP4\rentmanager\rentmanager\src\main\java\com\epf\rentmanager\ui\cli\ListVehicleCommand.java
 D:\EPF-4A\Java\TP4\rentmanager\rentmanager\src\main\java\com\epf\rentmanager\servlet\ClientListServlet.java
@@ -19,6 +21,7 @@ D:\EPF-4A\Java\TP4\rentmanager\rentmanager\src\main\java\com\epf\rentmanager\dao
 D:\EPF-4A\Java\TP4\rentmanager\rentmanager\src\main\java\com\epf\rentmanager\exception\CommandException.java
 D:\EPF-4A\Java\TP4\rentmanager\rentmanager\src\main\java\com\epf\rentmanager\servlet\VehicleCreateServlet.java
 D:\EPF-4A\Java\TP4\rentmanager\rentmanager\src\main\java\com\epf\rentmanager\ui\cli\CreateVehicleCommand.java
+D:\EPF-4A\Java\TP4\rentmanager\rentmanager\src\main\java\com\epf\rentmanager\servlet\ReservationUpdateServlet.java
 D:\EPF-4A\Java\TP4\rentmanager\rentmanager\src\main\java\com\epf\rentmanager\ui\cli\CreateReservationCommand.java
 D:\EPF-4A\Java\TP4\rentmanager\rentmanager\src\main\java\com\epf\rentmanager\ui\cli\ListClientCommand.java
 D:\EPF-4A\Java\TP4\rentmanager\rentmanager\src\main\java\com\epf\rentmanager\ui\cli\DeleteReservationCommand.java

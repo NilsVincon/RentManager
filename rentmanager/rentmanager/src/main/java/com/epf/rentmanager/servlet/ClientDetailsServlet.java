@@ -45,14 +45,14 @@ public class ClientDetailsServlet extends HttpServlet {
         System.out.println(clientId);
         try {
             Client client = clientService.findById(clientId);
-            List <Reservation> reservations = reservationService.findResaByClientId(clientId);
-            System.out.println("Liste des reservations Servlet : "+reservations);
-            List<Vehicle> vehicles=new ArrayList<>();
+            List<Reservation> reservations = reservationService.findResaByClientId(clientId);
+            System.out.println("Liste des reservations Servlet : " + reservations);
+            List<Vehicle> vehicles = new ArrayList<>();
             Set<Integer> uniqueVehicles = new HashSet<>();
             for (Reservation reservation : reservations) {
                 Vehicle vehicle = vehicleService.findById(reservation.getID_vehicle());
                 vehicles.add(vehicle);
-                reservation.setVehicleName(vehicle.getConstructeur(),vehicle.getModel());
+                reservation.setVehicleName(vehicle.getConstructeur(), vehicle.getModel());
                 uniqueVehicles.add(vehicle.getID_vehicle());
             }
             int nb_vehicle_unique = uniqueVehicles.size();
@@ -65,6 +65,7 @@ public class ClientDetailsServlet extends HttpServlet {
             throw new ServletException("Erreur lors de la récupération des détails du client", e);
         }
     }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
         int clientId = Integer.parseInt(request.getParameter("client_id"));
@@ -74,7 +75,6 @@ public class ClientDetailsServlet extends HttpServlet {
                 reservationService.delete(reservationService.findResaById(reservationId));
                 System.out.println("resa" + reservationId + "supprimé!");
                 request.setAttribute("successMessage", "La suppression de la reservation : " + reservationId + " a été effectuée avec succès !");
-                // Récupérer le client_id à partir des paramètres de la requête
                 response.sendRedirect(request.getRequestURI() + "?client_id=" + clientId);
             } catch (ServiceException e) {
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Une erreur s'est produite lors de la suppression de la reservation.");
@@ -89,7 +89,7 @@ public class ClientDetailsServlet extends HttpServlet {
 
             try {
                 vehicleService.delete(vehicleService.findById(vehicleId));
-                request.setAttribute("successMessage", "La suppression du vehicule : "+constructeur+" "+model+" a été effectuée avec succès !");
+                request.setAttribute("successMessage", "La suppression du vehicule : " + constructeur + " " + model + " a été effectuée avec succès !");
                 response.sendRedirect(request.getRequestURI() + "?client_id=" + clientId);
             } catch (ServiceException e) {
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Une erreur s'est produite lors de la suppression du véhicule.");
