@@ -34,7 +34,6 @@ public class ClientListServlet extends HttpServlet {
         try {
             List<Client> users = clientService.findAll();
             request.setAttribute("users", users);
-            System.out.println(users);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -47,29 +46,19 @@ public class ClientListServlet extends HttpServlet {
         if (Objects.equals(action, "delete_client")) {
             String deleteornot = request.getParameter("deleteornot");
             if (Objects.equals(deleteornot, "true")) {
-                String prenom = request.getParameter("prenom");
-                String nom = request.getParameter("nom");
                 try {
                     clientService.delete(clientService.findById(clientID));
-                    request.setAttribute("successMessage", "La suppression du client : " + prenom + " " + nom + " a été effectuée avec succès !");
                     response.sendRedirect(request.getContextPath() + "/users/list");
                 } catch (ServiceException e) {
-                    response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Une erreur s'est produite lors de la suppression du véhicule.");
+                    response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Une erreur s'est produite lors de la suppression du client.");
                     throw new RuntimeException(e);
                 }
             } else {
-                System.out.println("false");
                 doGet(request, response);
             }
-        }
-        if (Objects.equals(action, "modif_client")) {
-            System.out.println("modif_client");
-
         }
         if (Objects.equals(action, "dont_delete_client")) {
             doGet(request, response);
         }
-
-
     }
 }

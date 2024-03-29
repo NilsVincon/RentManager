@@ -25,5 +25,4 @@ public class ConnectionManager {
         init();
         return datasource.getConnection();
     }
-
 }

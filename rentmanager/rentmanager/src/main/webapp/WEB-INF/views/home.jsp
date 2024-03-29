@@ -1,7 +1,8 @@
 <%@ taglib uri="http://java.sun.com/jstl/core" prefix="c" %>
+<%@ page pageEncoding="UTF-8" %>
 
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <%@include file="/WEB-INF/views/common/head.jsp" %>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -28,7 +29,9 @@
             <div class="row">
                 <div class="col-md-3 col-sm-6 col-xs-12">
                     <div class="info-box">
-                        <span class="info-box-icon bg-aqua"><i class="fa fa-user"></i></span>
+                        <a href="${pageContext.request.contextPath}/users/list">
+                            <span class="info-box-icon bg-aqua"><i class="fa fa-user"></i></span>
+                        </a>
 
                         <div class="info-box-content">
                             <span class="info-box-text">Utilisateurs</span>
@@ -41,7 +44,9 @@
                 <!-- /.col -->
                 <div class="col-md-3 col-sm-6 col-xs-12">
                     <div class="info-box">
-                        <span class="info-box-icon bg-red"><i class="fa fa-car"></i></span>
+                        <a href="${pageContext.request.contextPath}/users/list">
+                            <span class="info-box-icon bg-red"><i class="fa fa-car"></i></span>
+                        </a>
 
                         <div class="info-box-content">
                             <span class="info-box-text">Voitures</span>
@@ -58,7 +63,9 @@
 
                 <div class="col-md-3 col-sm-6 col-xs-12">
                     <div class="info-box">
-                        <span class="info-box-icon bg-green"><i class="fa fa-pencil"></i></span>
+                        <a href="${pageContext.request.contextPath}/users/list">
+                            <span class="info-box-icon bg-green"><i class="fa fa-pencil"></i></span>
+                        </a>
 
                         <div class="info-box-content">
                             <span class="info-box-text">Reservations</span>

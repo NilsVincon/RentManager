@@ -4,19 +4,16 @@ import com.epf.rentmanager.exception.DaoException;
 import com.epf.rentmanager.dao.ReservationDao;
 import com.epf.rentmanager.exception.ServiceException;
 import com.epf.rentmanager.models.Reservation;
-import com.epf.rentmanager.models.Vehicle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
 import java.util.List;
 
-@Service // Annotation Spring indiquant que cette classe est un bean géré par Spring
+@Service
 public class ReservationService {
-
     private final ReservationDao reservationDao;
 
-    // Injection du ReservationDao via le constructeur
     @Autowired
     public ReservationService(ReservationDao reservationDao) {
         this.reservationDao = reservationDao;

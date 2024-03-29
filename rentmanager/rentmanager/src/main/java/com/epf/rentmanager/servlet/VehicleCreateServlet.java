@@ -41,12 +41,8 @@ public class VehicleCreateServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String constructeur = request.getParameter("constructeur");
         String from_rents_create = (request.getParameter("from_rents_create"));
-        System.out.println("fromVehicleCreate : " + from_rents_create);
         String model = request.getParameter("model");
         int nb_places = Integer.parseInt(request.getParameter("nb_places"));
-        System.out.println(constructeur);
-        System.out.println(model);
-        System.out.println(nb_places);
         Vehicle newVehicle = new Vehicle();
         newVehicle.setConstructeur(constructeur);
         newVehicle.setModel(model);

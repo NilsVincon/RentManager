@@ -10,11 +10,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Repository // Annotation Spring indiquant que cette classe est un bean géré par Spring
+@Repository
 public class ClientDao {
-
-    // Suppression de la méthode getInstance() car Spring gérera l'instanciation de ce bean
-
     private static final String CREATE_CLIENT_QUERY = "INSERT INTO Client(nom, prenom, email, naissance) VALUES(?, ?, ?, ?)";
     private static final String DELETE_CLIENT_QUERY = "DELETE FROM Client WHERE id=?";
     private static final String FIND_CLIENT_QUERY = "SELECT nom, prenom, email, naissance FROM Client WHERE id=?";

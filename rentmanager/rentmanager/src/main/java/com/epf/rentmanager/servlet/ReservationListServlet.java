@@ -26,10 +26,8 @@ public class ReservationListServlet extends HttpServlet {
 
     @Autowired
     private ReservationService reservationService;
-
     @Autowired
     private ClientService clientService;
-
     @Autowired
     private VehicleService vehicleService;
 
@@ -49,7 +47,6 @@ public class ReservationListServlet extends HttpServlet {
                 reservation.setClientName(client.getNom(), client.getPrenom());
                 reservation.setVehicleName(vehicle.getConstructeur(), vehicle.getModel());
             }
-            System.out.println("resa" + rents);
             request.setAttribute("rents", rents);
         } catch (Exception e) {
             e.printStackTrace();
@@ -61,8 +58,6 @@ public class ReservationListServlet extends HttpServlet {
         int reservationId = Integer.parseInt(request.getParameter("reservationId"));
         try {
             reservationService.delete(reservationService.findResaById(reservationId));
-            System.out.println("resa" + reservationId + "supprimé!");
-            request.setAttribute("successMessage", "La suppression de la reservatopn : " + reservationId + " a été effectuée avec succès !");
             response.sendRedirect(request.getContextPath() + "/rents/list");
         } catch (ServiceException e) {
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Une erreur s'est produite lors de la suppression de la reservation.");

@@ -71,13 +71,16 @@
                                 </div>
                             </div>
                             <% if (request.getAttribute("dateError") != null) { %>
-                            <span style="color: red;">une voiture ne peux pas être réservé plus de 7 jours de suite par le même utilisateur</span>
+                            <span style="color: red;">* une voiture ne peux pas être réservé plus de 7 jours de suite par le même utilisateur</span>
                             <% } %>
                             <% if (request.getAttribute("datefinError") != null) { %>
-                            <span style="color: red;">La fin de la réservation ne peut pas être avant le début</span>
+                            <span style="color: red;">* la fin de la réservation ne peut pas être avant le début</span>
                             <% } %>
                             <% if (request.getAttribute("periodError") != null) { %>
-                            <span style="color: red;">La voiture sélectionné est déjà utlisé sur cette periode</span>
+                            <span style="color: red;">* la voiture sélectionné est déjà utlisé sur cette periode</span>
+                            <% } %>
+                            <% if (request.getAttribute("trente_daysError") != null) { %>
+                            <span style="color: red;">* la voiture ne peut pas être sélectionné 30 jours de suite</span>
                             <% } %>
                             <div class="box-footer">
                                 <button type="submit" class="btn btn-info pull-right">Ajouter</button>

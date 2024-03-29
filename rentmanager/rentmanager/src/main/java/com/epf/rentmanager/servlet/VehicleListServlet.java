@@ -24,7 +24,6 @@ public class VehicleListServlet extends HttpServlet {
 
     @Autowired
     private VehicleService vehicleService;
-
     @Autowired
     private ReservationService reservationService;
 
@@ -49,28 +48,21 @@ public class VehicleListServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String deleteornot = request.getParameter("deleteornot");
-        System.out.println(deleteornot);
         if (Objects.equals(deleteornot, "true")) {
             int vehicleId = Integer.parseInt(request.getParameter("vehicleId"));
-            String constructeur = request.getParameter("constructeur");
-            String model = request.getParameter("model");
-            System.out.println(constructeur);
             try {
                 List<Reservation> reservations = reservationService.findResaByVehicleId(vehicleId);
-                int nb_reservations = reservations.size();
             } catch (ServiceException e) {
                 throw new RuntimeException(e);
             }
             try {
                 vehicleService.delete(vehicleService.findById(vehicleId));
-                request.setAttribute("successMessage", "La suppression du vehicule : " + constructeur + " " + model + " a été effectuée avec succès !");
                 response.sendRedirect(request.getContextPath() + "/vehicles/list");
             } catch (ServiceException e) {
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Une erreur s'est produite lors de la suppression du véhicule.");
                 throw new RuntimeException(e);
             }
         } else {
-            System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
             doGet(request, response);
         }
     }

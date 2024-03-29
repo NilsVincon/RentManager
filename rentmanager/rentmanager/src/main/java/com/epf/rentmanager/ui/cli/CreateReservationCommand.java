@@ -32,7 +32,6 @@ public class CreateReservationCommand implements Command {
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
-        System.out.println("La réservation a bien été créé.");
     }
 
 }

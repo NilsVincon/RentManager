@@ -1,7 +1,6 @@
 package com.epf.rentmanager.dao;
 
 import com.epf.rentmanager.exception.DaoException;
-import com.epf.rentmanager.models.Client;
 import com.epf.rentmanager.models.Reservation;
 import com.epf.rentmanager.persistence.ConnectionManager;
 import org.springframework.stereotype.Repository;
@@ -11,11 +10,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Repository // Annotation Spring indiquant que cette classe est un bean géré par Spring
+@Repository
 public class ReservationDao {
-
-    // Suppression de la méthode getInstance() car Spring gérera l'instanciation de ce bean
-
     private static final String CREATE_RESERVATION_QUERY = "INSERT INTO Reservation(client_id, vehicle_id, debut, fin) VALUES(?, ?, ?, ?)";
     private static final String DELETE_RESERVATION_QUERY = "DELETE FROM Reservation WHERE id=?";
     private static final String FIND_RESERVATIONS_BY_ID_QUERY = "SELECT client_id, vehicle_id, debut, fin FROM Reservation WHERE id=?";
@@ -32,18 +28,13 @@ public class ReservationDao {
             preparedStatement.setInt(2, reservation.getID_vehicle());
             LocalDate debut = reservation.getDebut();
             LocalDate fin = reservation.getFin();
-
-            // Vérifier si les dates de début et de fin ne sont pas null avant de les convertir en java.sql.Date
             if (debut != null && fin != null) {
                 preparedStatement.setDate(3, Date.valueOf(debut));
                 preparedStatement.setDate(4, Date.valueOf(fin));
             } else {
-                // Si l'une des dates est null, vous pouvez soit les remplacer par une date par défaut,
-                // soit les laisser null, selon les besoins de votre application
                 preparedStatement.setNull(3, Types.DATE);
                 preparedStatement.setNull(4, Types.DATE);
             }
-
             preparedStatement.execute();
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
             if (resultSet.next()) {
@@ -59,10 +50,8 @@ public class ReservationDao {
     public long delete(Reservation reservation) throws DaoException {
         try (Connection connexion = ConnectionManager.getConnection();
              PreparedStatement preparedStatement = connexion.prepareStatement(DELETE_RESERVATION_QUERY)) {
-            System.out.println(reservation);
             preparedStatement.setInt(1, reservation.getID_reservation());
             long line = preparedStatement.executeUpdate();
-            System.out.println(line);
             return line;
         } catch (SQLException e) {
             throw new DaoException(e.getMessage(), e);
@@ -103,7 +92,6 @@ public class ReservationDao {
         } catch (SQLException e) {
             throw new DaoException(e.getMessage(), e);
         }
-        System.out.println("Liste resa DAO  " + reservations);
         return reservations;
     }
 
@@ -141,7 +129,6 @@ public class ReservationDao {
                 Date finDate = resultSet.getDate("fin");
                 if (debutDate != null) {
                     debut = debutDate.toLocalDate();
-                    System.out.println("debut" + debut);
                 }
                 if (finDate != null) {
                     fin = finDate.toLocalDate();
@@ -178,7 +165,6 @@ public class ReservationDao {
         preparedStatement.setInt(1, newResa.getID_client());
         preparedStatement.setInt(2, newResa.getID_vehicle());
         preparedStatement.setDate(3, Date.valueOf(newResa.getDebut()));
-        System.out.println("debut" + newResa.getDebut());
         preparedStatement.setDate(4, Date.valueOf(newResa.getFin()));
         preparedStatement.setInt(5, newResa.getID_reservation());
         preparedStatement.executeUpdate();

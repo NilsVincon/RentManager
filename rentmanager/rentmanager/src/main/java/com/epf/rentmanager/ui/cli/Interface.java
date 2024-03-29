@@ -60,6 +60,5 @@ public class Interface {
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
-        System.out.println("Le client " + nom + " a bien été créé.");
     }
 }

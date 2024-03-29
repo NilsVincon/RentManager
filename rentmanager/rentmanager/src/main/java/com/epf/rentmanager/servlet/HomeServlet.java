@@ -17,23 +17,20 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/home")
 public class HomeServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+
     @Autowired
     private VehicleService vehicleService;
-
     @Autowired
     private ClientService clientService;
-
     @Autowired
     private ReservationService reservationService;
-
-    private static final long serialVersionUID = 1L;
 
     @Override
     public void init() throws ServletException {
         super.init();
         SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
     }
-
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -51,7 +48,6 @@ public class HomeServlet extends HttpServlet {
         request.setAttribute("clientCount", clientCount);
         request.setAttribute("reservationCount", reservationCount);
         this.getServletContext().getRequestDispatcher("/WEB-INF/views/home.jsp").forward(request, response);
-        //this.getServletContext().getRequestDispatcher("/WEB-INF/views/home.jsp").forward(request, response);
     }
 
 }

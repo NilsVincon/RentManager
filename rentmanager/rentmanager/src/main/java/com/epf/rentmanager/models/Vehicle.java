@@ -1,6 +1,5 @@
 package com.epf.rentmanager.models;
 
-
 public class Vehicle{
     private int ID_vehicle;
     private String constructeur;
@@ -14,7 +13,6 @@ public class Vehicle{
         this.model=model;
         this.nb_place=nb_place;
     }
-
 
     public int getID_vehicle() {
         return ID_vehicle;

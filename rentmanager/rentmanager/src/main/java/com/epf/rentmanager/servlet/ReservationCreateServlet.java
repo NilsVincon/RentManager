@@ -3,6 +3,9 @@ package com.epf.rentmanager.servlet;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -40,9 +43,7 @@ public class ReservationCreateServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            System.out.println("Je suis a ");
             List<Vehicle> rentsvehicles = vehicleService.findAll();
-            System.out.println(rentsvehicles);
             List<Client> rentsusers = clientService.findAll();
             request.setAttribute("rentsusers", rentsusers);
             request.setAttribute("rentsvehicles", rentsvehicles);
@@ -60,24 +61,31 @@ public class ReservationCreateServlet extends HttpServlet {
             request.setAttribute("datefinError", datefinError);
             String periodError = request.getParameter("periodError");
             request.setAttribute("periodError", periodError);
+            String trente_daysError = request.getParameter("trente_daysError");
+            request.setAttribute("trente_daysError", trente_daysError);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
         this.getServletContext().getRequestDispatcher("/WEB-INF/views/rents/create.jsp").forward(request, response);
     }
 
+    Comparator<Reservation> comparator = new Comparator<Reservation>() {
+        @Override
+        public int compare(Reservation r1, Reservation r2) {
+            return r1.getDebut().compareTo(r2.getDebut());
+        }
+    };
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int ID_Client = Integer.parseInt((request.getParameter("client")));
         int ID_Vehicle = Integer.parseInt((request.getParameter("vehicle")));
-        System.out.println("client : " + ID_Client);
-        System.out.println("vehicle : " + ID_Vehicle);
         LocalDate debut = null;
         LocalDate fin = null;
         String debutParam = request.getParameter("debut");
         String finParam = request.getParameter("fin");
         if (debutParam != null && finParam != null) {
             debut = LocalDate.parse(debutParam, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-            ;
             fin = LocalDate.parse(finParam, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
             //VERIFICATION DATE 7 JOURS MAX
             if (debut.plusDays(7).isBefore(fin)) {
@@ -86,7 +94,7 @@ public class ReservationCreateServlet extends HttpServlet {
             }
             //VERIFICATION DEBUT AVANT FIN
             if (fin.isBefore(debut)) {
-                response.sendRedirect(request.getContextPath() + "/rents/update?id_client=" + ID_Client + "&id_vehicle=" + ID_Vehicle + "&datefinError=true");
+                response.sendRedirect(request.getContextPath() + "/rents/create?id_client=" + ID_Client + "&id_vehicle=" + ID_Vehicle + "&datefinError=true");
                 return;
             }
         }
@@ -97,28 +105,40 @@ public class ReservationCreateServlet extends HttpServlet {
             throw new RuntimeException(e);
         }
         for (Reservation reservation : reservations) {
+
+            //VERIFICATION VEHICULE DEJA RESERVE
             if (((debut.isAfter(reservation.getDebut()) || debut.isEqual(reservation.getDebut())) && debut.isBefore(reservation.getFin()) || debut.isEqual(reservation.getFin())) || ((fin.isAfter(reservation.getDebut()) || fin.isEqual(reservation.getDebut())) && fin.isBefore(reservation.getFin()) || fin.isEqual(reservation.getFin()))) {
-                response.sendRedirect(request.getContextPath() + "/rents/update?id_client=" + ID_Client + "&id_vehicle=" + ID_Vehicle + "&periodError=true");
+                response.sendRedirect(request.getContextPath() + "/rents/create?id_client=" + ID_Client + "&id_vehicle=" + ID_Vehicle + "&periodError=true");
                 return;
             }
         }
-
-
-        System.out.println(debutParam);
-        System.out.println(finParam);
         Reservation newResa = new Reservation();
         newResa.setID_client(ID_Client);
         newResa.setID_vehicle(ID_Vehicle);
         newResa.setDebut(debut);
         newResa.setFin(fin);
-
+        reservations.add(newResa);
+        Collections.sort(reservations, comparator);
+        long period_en_cours = ChronoUnit.DAYS.between(reservations.get(0).getDebut(), reservations.get(0).getFin()) + 1;
+        for (int i = 0; i < reservations.size() - 1; i++) {
+            Reservation currentReservation = reservations.get(i);
+            Reservation nextReservation = reservations.get(i + 1);
+            //VERIFICATION VEHICULE RESERVER 30 JOURS DE SUITE
+            long daysBetween = ChronoUnit.DAYS.between(currentReservation.getFin(), nextReservation.getDebut());
+            if (daysBetween == 1) {
+                period_en_cours += ChronoUnit.DAYS.between(nextReservation.getDebut(), nextReservation.getFin()) + 1;
+            }
+        }
+        if (period_en_cours >= 30) {
+            response.sendRedirect(request.getContextPath() + "/rents/create?id_client=" + ID_Client + "&id_vehicle=" + ID_Vehicle + "&trente_daysError=true");
+            return;
+        }
         try {
             reservationService.create(newResa);
-            System.out.println(newResa);
             response.sendRedirect(request.getContextPath() + "/rents/list");
         } catch (ServiceException e) {
             e.printStackTrace();
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Une erreur s'est produite lors de la création du véhicule.");
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Une erreur s'est produite lors de la création de la reservation.");
         }
     }
 

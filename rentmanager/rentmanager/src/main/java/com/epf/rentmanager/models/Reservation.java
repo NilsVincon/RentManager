@@ -1,6 +1,5 @@
 package com.epf.rentmanager.models;
 
-
 import java.time.LocalDate;
 
 public class Reservation {

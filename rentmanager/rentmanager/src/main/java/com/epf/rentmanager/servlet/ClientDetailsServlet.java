@@ -25,10 +25,8 @@ public class ClientDetailsServlet extends HttpServlet {
 
     @Autowired
     private ClientService clientService;
-
     @Autowired
     private ReservationService reservationService;
-
     @Autowired
     private VehicleService vehicleService;
 
@@ -40,13 +38,10 @@ public class ClientDetailsServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         StringBuffer url = request.getRequestURL();
-        System.out.println("URL de la requête : " + url.toString());
         int clientId = Integer.parseInt(request.getParameter("client_id"));
-        System.out.println(clientId);
         try {
             Client client = clientService.findById(clientId);
             List<Reservation> reservations = reservationService.findResaByClientId(clientId);
-            System.out.println("Liste des reservations Servlet : " + reservations);
             List<Vehicle> vehicles = new ArrayList<>();
             Set<Integer> uniqueVehicles = new HashSet<>();
             for (Reservation reservation : reservations) {
@@ -73,8 +68,6 @@ public class ClientDetailsServlet extends HttpServlet {
             int reservationId = Integer.parseInt(request.getParameter("reservationId"));
             try {
                 reservationService.delete(reservationService.findResaById(reservationId));
-                System.out.println("resa" + reservationId + "supprimé!");
-                request.setAttribute("successMessage", "La suppression de la reservation : " + reservationId + " a été effectuée avec succès !");
                 response.sendRedirect(request.getRequestURI() + "?client_id=" + clientId);
             } catch (ServiceException e) {
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Une erreur s'est produite lors de la suppression de la reservation.");
@@ -83,13 +76,8 @@ public class ClientDetailsServlet extends HttpServlet {
         }
         if (Objects.equals(action, "delete_vehicle")) {
             int vehicleId = Integer.parseInt(request.getParameter("vehicleId"));
-            String constructeur = request.getParameter("constructeur");
-            String model = request.getParameter("model");
-            System.out.println(constructeur);
-
             try {
                 vehicleService.delete(vehicleService.findById(vehicleId));
-                request.setAttribute("successMessage", "La suppression du vehicule : " + constructeur + " " + model + " a été effectuée avec succès !");
                 response.sendRedirect(request.getRequestURI() + "?client_id=" + clientId);
             } catch (ServiceException e) {
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Une erreur s'est produite lors de la suppression du véhicule.");

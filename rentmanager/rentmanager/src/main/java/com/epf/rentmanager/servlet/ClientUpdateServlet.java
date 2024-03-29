@@ -65,14 +65,11 @@ public class ClientUpdateServlet extends HttpServlet {
             }
         }
         //VERIFICATION NOM ET PRENOM
-
         if (nom.length() < 3 || prenom.length() < 3) {
             response.sendRedirect(request.getContextPath() + "/users/update?client_id=" + ID_Client + "&nameError=true");
             return;
         }
-
         //VERIFICATION AGE
-
         LocalDate dateactuelle = LocalDate.now();
         long age = ChronoUnit.YEARS.between(datenaissance, dateactuelle);
         if (age < 18) {
@@ -80,19 +77,11 @@ public class ClientUpdateServlet extends HttpServlet {
             return;
         }
         //VERFICATION MAIL
-
         try {
             List<Client> clients = clientService.findAll();
-            System.out.println("clients1: " + clients);
-
-            // Filtrer les clients ayant le même e-mail que celui fourni dans la variable 'mail'
             clients = clients.stream()
                     .filter(client -> client.getID_client() != ID_Client)
                     .collect(Collectors.toList());
-
-            System.out.println("clients2: " + clients);
-
-            // Vérifier s'il y a des clients filtrés (c'est-à-dire s'il y a des clients avec le même e-mail)
             for (Client client : clients) {
                 if (Objects.equals(client.getEmail(), mail)) {
                     response.sendRedirect(request.getContextPath() + "/users/create?nom=" + nom + "&prenom=" + prenom + "&naissance=" + datenaissance + "&mailError=true");
@@ -102,8 +91,6 @@ public class ClientUpdateServlet extends HttpServlet {
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
-
-
         Client newClient = new Client();
         newClient.setID_client(ID_Client);
         newClient.setNom(nom);
@@ -120,5 +107,4 @@ public class ClientUpdateServlet extends HttpServlet {
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Une erreur s'est produite lors de la modification du client.");
         }
     }
-
 }

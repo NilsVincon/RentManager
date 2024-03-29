@@ -2,7 +2,6 @@ package com.epf.rentmanager.models;
 
 import java.time.LocalDate;
 
-
 public class Client{
     private int ID_client;
     private String nom;

@@ -17,13 +17,9 @@ public class ListClientCommand implements Command {
     @Override
     public void execute() throws ServiceException {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Voulez vous afficher tous les clients ? : ");
         String reponse = scanner.nextLine();
         if (Objects.equals(reponse, "oui")){
             List<Client> clients = clientService.findAll();
-            for (Client client : clients) {
-                System.out.println(client);
-            }
         }
     }
 }

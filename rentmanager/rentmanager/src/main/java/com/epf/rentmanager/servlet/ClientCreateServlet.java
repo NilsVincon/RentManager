@@ -49,21 +49,15 @@ public class ClientCreateServlet extends HttpServlet {
         request.setAttribute("mail", mail);
         LocalDate naissance = null;
         String naissanceParam = request.getParameter("naissance");
-        System.out.println(naissanceParam);
         if (naissanceParam != null && !naissanceParam.isEmpty()) {
             try {
-                // Conversion de la chaîne de caractères en LocalDate
                 naissance = LocalDate.parse(naissanceParam);
             } catch (DateTimeParseException e) {
-                // Gestion de l'erreur : affichage dans la console et ajout d'un message d'erreur à afficher à l'utilisateur
                 e.printStackTrace();
                 request.setAttribute("naissanceError", "Format de date invalide. Utilisez le format AAAA-MM-JJ.");
             }
         }
-        System.out.println(naissance);
-        // Ajout de la date de naissance à l'attribut de la requête
         request.setAttribute("naissance", naissance);
-
         request.getRequestDispatcher("/WEB-INF/views/users/create.jsp").forward(request, response);
     }
 
@@ -81,23 +75,18 @@ public class ClientCreateServlet extends HttpServlet {
             }
         }
         //VERIFICATION NOM ET PRENOM
-
         if (nom.length() < 3 || prenom.length() < 3) {
             response.sendRedirect(request.getContextPath() + "/users/create?mail=" + mail + "&naissance=" + datenaissance + "&nameError=true");
             return;
         }
-
         //VERIFICATION AGE
-
         LocalDate dateactuelle = LocalDate.now();
         long age = ChronoUnit.YEARS.between(datenaissance, dateactuelle);
         if (age < 18) {
             response.sendRedirect(request.getContextPath() + "/users/create?nom=" + nom + "&prenom=" + prenom + "&mail=" + mail + "&ageError=true");
             return;
         }
-
         //VERFICATION MAIL
-
         try {
             List<Client> clients = clientService.findAll();
             for (Client client : clients) {
@@ -109,14 +98,12 @@ public class ClientCreateServlet extends HttpServlet {
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
-
         Client newClient = new Client();
         newClient.setNom(nom);
         newClient.setPrenom(prenom);
         newClient.setEmail(mail);
         newClient.setNaissance(datenaissance);
         String from_rents_create = (request.getParameter("from_rents_create"));
-
         try {
             clientService.create(newClient);
             if (from_rents_create != null && Objects.equals(from_rents_create, "true")) {
