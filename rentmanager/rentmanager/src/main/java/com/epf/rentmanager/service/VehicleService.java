@@ -27,9 +27,6 @@ public class VehicleService {
             if (vehicle.getModel().isEmpty()) {
                 throw new ServiceException("Le véhicule doit avoir un model.");
             }
-            if (vehicle.getNb_place() < 1) {
-                throw new ServiceException("Le véhicule doit avoir au moins une place.");
-            }
             return vehicleDao.create(vehicle);
         } catch (DaoException e) {
             throw new ServiceException("Erreur lors de la création du véhicule.");
