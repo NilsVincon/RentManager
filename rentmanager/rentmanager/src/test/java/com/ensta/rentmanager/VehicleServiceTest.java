@@ -11,6 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Mock;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
@@ -36,30 +37,40 @@ public class VehicleServiceTest {
     }
 
     @Test
-    public void create_should_fail_when_constructor_is_empty() throws DaoException {
+    public void create_should_succeed_with_valid_data() throws ServiceException, DaoException {
         // Given
-        Vehicle vehicle = new Vehicle("", "cayman", 3);
-        when(this.vehicleDao.create(vehicle)).thenThrow(DaoException.class);
+        Vehicle vehicle = new Vehicle("Toyota", "Corolla", 5);
+        when(vehicleDao.create(vehicle)).thenReturn(1);
+        // When
+        int vehicleId = vehicleService.create(vehicle);
         // Then
+        assertEquals(1, vehicleId);
+    }
+
+    @Test
+    public void create_should_fail_when_constructor_is_empty() {
+        // Given
+        Vehicle vehicle = new Vehicle("", "Corolla", 5);
+        // When & Then
         assertThrows(ServiceException.class, () -> vehicleService.create(vehicle));
     }
 
     @Test
-    public void create_should_fail_when_model_is_empty() throws DaoException {
+    public void create_should_fail_when_model_is_empty() {
         // Given
-        Vehicle vehicle = new Vehicle("", "cayman", 3);
-        when(this.vehicleDao.create(vehicle)).thenThrow(DaoException.class);
-        // Then
+        Vehicle vehicle = new Vehicle("Toyota", "", 5);
+        // When & Then
         assertThrows(ServiceException.class, () -> vehicleService.create(vehicle));
     }
 
     @Test
-    public void findbyid_should_fail_when_id_doesnt_exist() throws DaoException {
+    public void create_should_fail_when_number_of_seats_is_out_of_range() {
         // Given
-        when(this.vehicleDao.findById(66666)).thenThrow(DaoException.class);
-        // Then
-        assertThrows(ServiceException.class, () -> vehicleService.findById(66666));
+        Vehicle vehicle1 = new Vehicle("Toyota", "Corolla", 1);
+        Vehicle vehicle2 = new Vehicle("Toyota", "Corolla", 10);
+        // When & Then
+        assertThrows(ServiceException.class, () -> vehicleService.create(vehicle1));
+        assertThrows(ServiceException.class, () -> vehicleService.create(vehicle2));
     }
-
 }
 

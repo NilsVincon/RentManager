@@ -1,6 +1,8 @@
 package com.epf.rentmanager.service;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import com.epf.rentmanager.dao.ClientDao;
@@ -21,8 +23,24 @@ public class ClientService {
 
     public long create(Client client) throws ServiceException {
         try {
-            if (client.getNom().isEmpty() || client.getPrenom().isEmpty()) {
-                throw new ServiceException("Le nom et le prénom du client ne peut pas être vide.");
+            //VERIFICATION BACK NOM/PRENOM
+            if (client.getNom().length() < 3 || client.getPrenom().length() < 3) {
+                throw new ServiceException("Le nom et le prénom du client doivent avoir au moins 3 lettres.");
+            }
+            //VERIFICATION BACK AGE
+            LocalDate datenaissance = client.getNaissance();
+            LocalDate dateactuelle = LocalDate.now();
+            long age = ChronoUnit.YEARS.between(datenaissance, dateactuelle);
+            if (age < 18) {
+                throw new ServiceException("Le client doit avoir au moin 18ans");
+            }
+            //VERIFICATION BACK MAIL
+            String mail = client.getEmail();
+            List<Client> clients = clientDao.findAll();
+            for (Client allclient : clients) {
+                if (allclient.getEmail().equals(mail)) {
+                    throw new ServiceException("L'email est déjà utilisé");
+                }
             }
             client.setNom(client.getNom().toUpperCase());
             return clientDao.create(client);

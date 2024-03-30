@@ -21,11 +21,17 @@ public class VehicleService {
 
     public int create(Vehicle vehicle) throws ServiceException {
         try {
+            //VERIFICATION BACK CONSTRUCTEUR NON VIDE
             if (vehicle.getConstructeur().isEmpty()) {
                 throw new ServiceException("Le véhicule doit avoir un constructeur.");
             }
+            //VERIFICATION BACK MODEL NON VIDE
             if (vehicle.getModel().isEmpty()) {
                 throw new ServiceException("Le véhicule doit avoir un model.");
+            }
+            //VERIFICATION BACK NOMBRE PLACE ENTRE 2 ET 9
+            if ((vehicle.getNb_place() < 2) || (vehicle.getNb_place() > 9)) {
+                throw new ServiceException("Le véhicule doit avoir entre 2 et 9 places");
             }
             return vehicleDao.create(vehicle);
         } catch (DaoException e) {

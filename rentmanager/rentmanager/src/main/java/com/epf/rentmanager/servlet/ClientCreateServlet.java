@@ -74,19 +74,19 @@ public class ClientCreateServlet extends HttpServlet {
                 e.printStackTrace();
             }
         }
-        //VERIFICATION NOM ET PRENOM
+        //VERIFICATION FRONT NOM/PRENOM
         if (nom.length() < 3 || prenom.length() < 3) {
             response.sendRedirect(request.getContextPath() + "/users/create?mail=" + mail + "&naissance=" + datenaissance + "&nameError=true");
             return;
         }
-        //VERIFICATION AGE
+        //VERIFICATION FRONT AGE
         LocalDate dateactuelle = LocalDate.now();
         long age = ChronoUnit.YEARS.between(datenaissance, dateactuelle);
         if (age < 18) {
             response.sendRedirect(request.getContextPath() + "/users/create?nom=" + nom + "&prenom=" + prenom + "&mail=" + mail + "&ageError=true");
             return;
         }
-        //VERFICATION MAIL
+        //VERFICATION FRONT MAIL
         try {
             List<Client> clients = clientService.findAll();
             for (Client client : clients) {

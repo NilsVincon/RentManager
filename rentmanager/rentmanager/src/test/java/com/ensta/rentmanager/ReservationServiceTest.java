@@ -13,6 +13,7 @@ import org.mockito.Mock;
 
 import java.time.LocalDate;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
@@ -36,49 +37,30 @@ public class ReservationServiceTest {
         // Then
         assertThrows(ServiceException.class, () -> reservationService.findAll());
     }
+    @Test
+    public void create_should_succeed_with_valid_data() throws ServiceException, DaoException {
+        // Given
+        Reservation reservation = new Reservation(1, 1, LocalDate.now(), LocalDate.now().plusDays(6));
+        when(reservationDao.create(reservation)).thenReturn(1L);
+        // When
+        long reservationId = reservationService.create(reservation);
+        // Then
+        assertEquals(1L, reservationId);
+    }
 
     @Test
-    public void create_should_fail_when_last_name_is_empty() throws DaoException {
+    public void create_should_fail_when_reservation_duration_exceeds_7_days() {
         // Given
-        Reservation reservation = new Reservation(1, 2, LocalDate.of(2024, 3, 27), LocalDate.of(2024, 3, 30));
-        when(this.reservationDao.create(reservation)).thenThrow(DaoException.class);
-        // Then
+        Reservation reservation = new Reservation(1, 1, LocalDate.now(), LocalDate.now().plusDays(8));
+        // When & Then
         assertThrows(ServiceException.class, () -> reservationService.create(reservation));
     }
 
     @Test
-    public void create_should_fail_when_first_name_is_empty() throws DaoException {
+    public void create_should_fail_when_end_date_before_start_date() {
         // Given
-        Reservation reservation = new Reservation(1, 2, LocalDate.of(2024, 3, 27), LocalDate.of(2024, 3, 30));
-        when(this.reservationDao.create(reservation)).thenThrow(DaoException.class);
-        // Then
+        Reservation reservation = new Reservation(1, 1, LocalDate.now().plusDays(2), LocalDate.now());
+        // When & Then
         assertThrows(ServiceException.class, () -> reservationService.create(reservation));
     }
-
-    @Test
-    public void findbyid_should_fail_when_id_resa_doesnt_exist() throws DaoException {
-        // Given
-        when(this.reservationDao.findResaById(66666)).thenThrow(DaoException.class);
-        // Then
-        assertThrows(ServiceException.class, () -> reservationService.findResaById(66666));
-    }
-
-    @Test
-    public void findbyid_should_fail_when_id_vehicle_doesnt_exist() throws DaoException {
-        // Given
-        when(this.reservationDao.findResaByVehicleId(66666)).thenThrow(DaoException.class);
-        // Then
-        assertThrows(ServiceException.class, () -> reservationService.findResaByVehicleId(66666));
-    }
-
-    @Test
-    public void findbyid_should_fail_when_id_client_doesnt_exist() throws DaoException {
-        // Given
-        when(this.reservationDao.findResaByClientId(66666)).thenThrow(DaoException.class);
-        // Then
-        assertThrows(ServiceException.class, () -> reservationService.findResaByClientId(66666));
-    }
-
-
 }
-

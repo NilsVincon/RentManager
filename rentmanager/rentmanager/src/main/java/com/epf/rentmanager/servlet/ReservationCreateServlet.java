@@ -87,12 +87,12 @@ public class ReservationCreateServlet extends HttpServlet {
         if (debutParam != null && finParam != null) {
             debut = LocalDate.parse(debutParam, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
             fin = LocalDate.parse(finParam, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-            //VERIFICATION DATE 7 JOURS MAX
+            //VERIFICATION FRONT DATE 7 JOURS MAX
             if (debut.plusDays(7).isBefore(fin)) {
                 response.sendRedirect(request.getContextPath() + "/rents/create?id_client=" + ID_Client + "&id_vehicle=" + ID_Vehicle + "&dateError=true");
                 return;
             }
-            //VERIFICATION DEBUT AVANT FIN
+            //VERIFICATION FRONT DEBUT AVANT FIN
             if (fin.isBefore(debut)) {
                 response.sendRedirect(request.getContextPath() + "/rents/create?id_client=" + ID_Client + "&id_vehicle=" + ID_Vehicle + "&datefinError=true");
                 return;
@@ -106,7 +106,7 @@ public class ReservationCreateServlet extends HttpServlet {
         }
         for (Reservation reservation : reservations) {
 
-            //VERIFICATION VEHICULE DEJA RESERVE
+            //VERIFICATION FRONT VEHICULE DEJA RESERVE
             if (((debut.isAfter(reservation.getDebut()) || debut.isEqual(reservation.getDebut())) && debut.isBefore(reservation.getFin()) || debut.isEqual(reservation.getFin())) || ((fin.isAfter(reservation.getDebut()) || fin.isEqual(reservation.getDebut())) && fin.isBefore(reservation.getFin()) || fin.isEqual(reservation.getFin()))) {
                 response.sendRedirect(request.getContextPath() + "/rents/create?id_client=" + ID_Client + "&id_vehicle=" + ID_Vehicle + "&periodError=true");
                 return;
@@ -123,7 +123,7 @@ public class ReservationCreateServlet extends HttpServlet {
         for (int i = 0; i < reservations.size() - 1; i++) {
             Reservation currentReservation = reservations.get(i);
             Reservation nextReservation = reservations.get(i + 1);
-            //VERIFICATION VEHICULE RESERVER 30 JOURS DE SUITE
+            //VERIFICATION FRONT VEHICULE RESERVER 30 JOURS DE SUITE
             long daysBetween = ChronoUnit.DAYS.between(currentReservation.getFin(), nextReservation.getDebut());
             if (daysBetween == 1) {
                 period_en_cours += ChronoUnit.DAYS.between(nextReservation.getDebut(), nextReservation.getFin()) + 1;

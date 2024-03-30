@@ -47,12 +47,11 @@ public class VehicleCreateServlet extends HttpServlet {
         newVehicle.setConstructeur(constructeur);
         newVehicle.setModel(model);
         newVehicle.setNb_place(nb_places);
-        //VERIFICATION NOMBRE PLACE ENTRE 2 ET 9
+        //VERIFICATION FRONT NOMBRE PLACE ENTRE 2 ET 9
         if ((nb_places < 2) || (nb_places > 9)) {
             response.sendRedirect(request.getContextPath() + "/vehicles/create?constructeur=" + constructeur + "&model=" + model + "&nbplaceError=true");
             return;
         }
-
         try {
             vehicleService.create(newVehicle);
             if (from_rents_create != null && Objects.equals(from_rents_create, "true")) {
