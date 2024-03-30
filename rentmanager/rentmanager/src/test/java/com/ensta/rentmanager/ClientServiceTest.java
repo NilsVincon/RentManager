@@ -41,7 +41,6 @@ public class ClientServiceTest {
     public void create_should_succeed_with_valid_data() throws ServiceException, DaoException {
         // Given
         Client client = new Client("Durant", "Julie", "julie.durant@test.com", LocalDate.of(2002, 12, 28));
-        when(clientDao.findAll()).thenReturn(new ArrayList<>());
         // When
         when(clientDao.create(client)).thenReturn(1L);
         long clientId = clientService.create(client);
